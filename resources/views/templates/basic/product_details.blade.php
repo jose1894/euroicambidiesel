@@ -309,22 +309,26 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 my-5">
-                <h4 class="mb-3" >Descripción extra</h4>
-                @foreach ($product->extra_descriptions as $extra)
-                    @foreach ($extra as $key => $value)
-                        {!! $value !!}
+            @if(isset($product->extra_descriptions))
+                <div class="col-12 my-5">
+                    <h4 class="mb-3" >Descripción extra</h4>
+                    @foreach ($product->extra_descriptions as $extra)
+                        @foreach ($extra as $key => $value)
+                            {!! $value !!}
+                        @endforeach
                     @endforeach
-                @endforeach
-            </div>
-            <div class="col-12 my-5">
-                <h4 class="mb-3">Especificaciones técnicas</h4>
-                @foreach ($product->specification as $features)
-                    @foreach ($features as $key => $value)
-                        {!! $value !!}
+                </div>
+            @endif
+            @if(isset($product->specification))
+                <div class="col-12 my-5">
+                    <h4 class="mb-3">Especificaciones técnicas</h4>
+                    @foreach ($product->specification as $features)
+                        @foreach ($features as $key => $value)
+                            {!! $value !!}
+                        @endforeach
                     @endforeach
-                @endforeach
-            </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>
