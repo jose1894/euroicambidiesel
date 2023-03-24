@@ -305,8 +305,25 @@
                         
                     </div>
 
-
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 my-5">
+                <h4 class="mb-3" >Descripción extra</h4>
+                @foreach ($product->extra_descriptions as $extra)
+                    @foreach ($extra as $key => $value)
+                        {!! $value !!}
+                    @endforeach
+                @endforeach
+            </div>
+            <div class="col-12 my-5">
+                <h4 class="mb-3">Especificaciones técnicas</h4>
+                @foreach ($product->specification as $features)
+                    @foreach ($features as $key => $value)
+                        {!! $value !!}
+                    @endforeach
+                @endforeach
             </div>
         </div>
     </div>
@@ -518,165 +535,7 @@
         </div>
     </div>
 </div>
-{{--<div class="products-description padding-bottom padding-top-half bg-related">
-    <div class="container">
 
-        
-        
-            @if($related_products)
-            <div class="related-products">
-                <h5 class="title bold mb-3 mb-lg-4">@lang('Related Products')</h5>
-                <div class="m--15 oh">
-                    <div class="related-products-slider owl-carousel owl-theme">
-                        @foreach ($related_products as $item)
-
-                        @php
-                        if($item->offer && $item->offer->activeOffer){
-                        $discount_amount = calculateDiscount($item->offer->activeOffer->amount,
-                        $item->offer->activeOffer->discount_type, $item->base_price);
-                        }else $discount_amount = 0;
-
-                        $wCk = checkWishList($item->id);
-                        $cCk = checkCompareList($item->id);
-                        @endphp
-                        <div id="app-{{$item->id}}">
-                            <div class="product-item-2">
-                                <div class="product-item-2-inner wish-buttons-in">
-                                    @if(isset($item->offer))
-                                    @if($item->offer['activeOffer'])
-                                                            @if($item->offer['activeOffer']['discount_type'] == 2)
-                                                                <span class="text-white bg-danger tag-discount"> -{{$item->offer['activeOffer']['amount']}}% </span>
-                                                            @else 
-                                                                <span class="text-white bg-danger tag-discount"> -{{$item->offer['activeOffer']['amount']}}$ </span>
-                                                            @endif
-                                    @endif
-                                    @endif
-                                    <div class="product-thumb">
-                                        <a href="{{route('product.detail', ['id'=>$item->id, 'slug'=>slug($item->name)])}}">
-                                            <img src="{{ getImage(imagePath()['product']['path'].'/thumb_'.@$item->main_image, imagePath()['product']['size']) }}"
-                                                alt="@lang('flash')">
-                                        </a>
-                                    </div>
-                                    <div style="display: none;" class="item-prod-argo badgeProduct{{$item->id}}"></div>
-                                    <div class="product-content">
-                                        <div class="product-before-content">
-                                            <h6 class="title">
-                                                <a
-                                                    href="{{route('product.detail', ['id'=>$item->id, 'slug'=>slug($item->name)])}}">{{
-                                                    $item->name }}</a>
-                                            </h6>
-                                            <div class="stock-argo">({{ $item['stocks']->count() > 0 ?
-                                                $item['stocks'][0]->quantity : '0' }} @lang('product avaliable') )</div>
-
-                                            <div class="argo-tag-category">
-                                                @php
-                                                    $category_name = '';
-                                                    $category_url = '';
-                                                @endphp
-
-                                                @foreach ($product->categories as $category)
-                                                    @php
-                                                        $category_name = $category->name;
-                                                        $category_url = route('products.category', ['id'=>$category->id, 'slug'=>slug($category->name)]);
-                                                    @endphp
-                                                <a
-                                                    href="{{ route('products.category', ['id'=>$category->id, 'slug'=>slug($category->name)]) }}">{{
-                                                    __($category->name) }}</a>
-                                                @if(!$loop->last)
-                                                /
-                                                @endif
-                                                @endforeach
-                                            </div>
-
-                                            <!-- 
-                                        <div class="ratings-area justify-content-between">
-                                            <div class="ratings">
-                                                @php echo __(display_avg_rating($item->reviews)) @endphp
-                                            </div>
-                                            <span class="ml-2 mr-auto">({{ __($item->reviews->count()) }})</span> 
-                                        <div class="price">
-                                                @if($discount_amount > 0)
-                                                {{ $general->cur_sym }}{{ getAmount($item->precioBaseIva - $discount_amount, 2) }}
-                                                <del>{{ getAmount($item->precioBaseIva, 2) }}</del>
-                                                @else
-                                                {{ $general->cur_sym }}{{ getAmount($item->precioBaseIva, 2) }}
-                                                @endif
-                                            </div>
-                                        </div> -->
-
-                                        </div>
-
-                                    </div>
-                                    <div class="product-argo">
-                                        <div class="price">
-                                            @if($moneda == 'Dolares' || $moneda == '')
-                                                @if($discount_amount > 0)
-                                                {{ $general->cur_sym }}{{ getAmount($item->precioBaseIva - $discount_amount, 2) }}
-                                                <del>{{ getAmount($item->precioBaseIva, 2) }}</del>
-                                                @else
-                                                {{ $general->cur_sym }}{{ getAmount($item->precioBaseIva, 2) }}
-                                                @endif
-                                            @else
-                                                @if($discount_amount > 0)
-                                                Bs{{ getAmount(($item->precioBaseIva - $discount_amount) * $rate, 2) }}
-                                                <del>{{ getAmount($item->precioBaseIva * $rate, 2) }}</del>
-                                                @else
-                                                Bs{{ getAmount($item->precioBaseIva * $rate, 2) }}
-                                                @endif
-                                            @endif
-                                        </div>
-                                        <div class="argo-count">
-                                            <button @click="isShow = true" type="submit"
-                                                class="cmn-btn-argo cart-add-btn showProduct{{ $item['id'] }}"
-                                                data-id="{{ $item['id'] }}">@lang('Agregar')</button>
-
-                                            <div class="cart-plus-minus quantity">
-                                                <div class="cart-decrease qtybutton dec">
-                                                    <i class="las la-minus"></i>
-                                                </div>
-                                                <input v-show="isShow" v-model.number="bagde"
-                                                    id="quantity{{ __($item->id) }}" type="number" name="quantity" step="1"
-                                                    min="1" value="1"
-                                                    class="integer-validation quantity{{ __($item->id) }}">
-                                                <div class="cart-increase qtybutton inc">
-                                                    <i class="las la-plus"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        @push('vue')
-                        <script>
-                            var app3 = new Vue({
-                                el: '#app-{{$item->id}}',
-                                data: {
-                                    BackTheme: null,
-                                    bagde: "1",
-                                    isHidden: true,
-                                    isShow: false
-
-                                }
-                            })
-
-                            $(".cart-add-btn").click(function(){
-                                $("#app-{{$item->id}} .cart-add-btn").addClass("appss-c4");
-
-                            });
-                            console.log(app3);
-                        </script>
-                        @endpush
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            @endif
-        
-    </div>
-</div>--}}
 @endsection
 
 @push('script')
