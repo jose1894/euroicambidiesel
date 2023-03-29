@@ -326,6 +326,7 @@
                         @foreach ($features as $key => $value)
                             {!! $value !!}
                         @endforeach
+                        <br>
                     @endforeach
                 </div>
             @endif

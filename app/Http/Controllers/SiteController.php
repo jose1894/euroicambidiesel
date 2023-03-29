@@ -190,6 +190,9 @@ class SiteController extends Controller
                 $product->where('description', 'like', "%" . $search . "%");
                 $product->where('internal_code', 'like', "%" . $search . "%");
                 $product->where('oem_code', 'like', "%" . $search . "%");
+                $product->where('oem_code', 'like', "%" . $search . "%");
+                $product->where('specification', 'like', "%" . $search . "%");
+                $product->where('extra_descriptions', 'like', "%" . $search . "%");
             })->paginate(10);
 
         // DB::statement("ALTER TABLE products ADD FULLTEXT(name, description)");
@@ -197,11 +200,11 @@ class SiteController extends Controller
 
         $products_match = Product::select('*')
             ->selectRaw('
-                            match(name, description, internal_code, oem_code) 
+                            match(name, description, internal_code, oem_code,specification,extra_descriptions) 
                             against(? in natural language mode) as score
                         ', [$search])
             ->whereRaw('
-                            match(name, description, internal_code, oem_code) 
+                            match(name, description, internal_code, oem_code,specification,extra_descriptions) 
                             against(? in natural language mode) > 0.0000001
                         ', [$search])
             ->with(
@@ -460,11 +463,11 @@ class SiteController extends Controller
                 
             $products_match = Product::select('*')
                 ->selectRaw('
-                                match(name, description, internal_code, oem_code) 
+                                match(name, description, internal_code, oem_code,specification,extra_descriptions) 
                                 against(? in natural language mode) as score
                             ', [$search_key])
                 ->whereRaw('
-                                match(name, description, internal_code, oem_code) 
+                                match(name, description, internal_code, oem_code,specification,extra_descriptions) 
                                 against(? in natural language mode) > 0.0000001
                             ', [$search_key])
                 ->whereHas('stocks', function ($p) {
@@ -620,11 +623,11 @@ class SiteController extends Controller
 
             $products_match = Product::select('*')
                 ->selectRaw('
-                            match(name, description) 
+                            match(name, description, internal_code, oem_code,specification,extra_descriptions)  
                             against(? in natural language mode) as score
                         ', [$search_key])
                 ->whereRaw('
-                            match(name, description) 
+                            match(name, description, internal_code, oem_code,specification,extra_descriptions)  
                             against(? in natural language mode) > 0.0000001
                         ', [$search_key])
                 ->with(
