@@ -323,6 +323,12 @@
 
                                 
                             @endforeach
+                            <li>
+                                <a class="nav-link" data-toggle="tab" href="#tab-datos-tecnicos" 
+                                style="font-family: arial;font-size: large;color: rgb(255, 0, 0);">
+                                    <b>DATOS T&Eacute;CNICOS</b>
+                                </a>
+                            </li>
                         </ul>
 
                         <div class="tab-content">
@@ -333,23 +339,24 @@
                                 <p>{!! $extra['value'] !!}</p>
                             </div>
                         @endforeach
+                        <div id="tab-datos-tecnicos" class="container tab-pane">
+                            @if(isset($product->specification))
+                                <div class="col-md-4 col-12 py-3">
+                                    <table class="table-stripped">
+                                    @foreach ($product->specification as $key => $features)
+                                        <tr>
+                                            <td>
+                                                        <b>{{ $features['name'] }}</b>: {!! $features['value'] !!}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </table>
+                                </div>
+                            @endif
+                        </div>
+
                         </div>
                     </div>
-                </div>
-            @endif
-            @if(isset($product->specification))
-                <div class="col-md-4 col-12 py-3">
-                    <h4>Datos t&eacute;cnicos</h4>
-                    <table class="table table-stripped d-block">
-
-                    @foreach ($product->specification as $key => $features)
-                        <tr>
-                            <td>
-                                        <b>{{ $features['name'] }}</b>: {!! $features['value'] !!}
-                            </td>
-                        </tr>
-                    @endforeach
-                    </table>
                 </div>
             @endif
         </div>
