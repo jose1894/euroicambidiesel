@@ -310,7 +310,7 @@
         </div>
         <div class="row" style="background-color:#fff; border-radius:15px">
             @if(isset($product->extra_descriptions))
-                <div class=" col-md-8 col-12 py-3">
+                <div class=" col-12 py-3">
                     <div class="container">
                         <ul class="nav nav-tabs" role="tablist">
                             @foreach ($product->extra_descriptions as $key => $extra)
@@ -342,7 +342,7 @@
                         <div id="tab-datos-tecnicos" class="container tab-pane">
                             @if(isset($product->specification))
                                 <div class="col-md-4 col-12 py-3">
-                                    <table class="table-stripped">
+                                    <table class="table table-stripped">
                                     @foreach ($product->specification as $key => $features)
                                         <tr>
                                             <td>
