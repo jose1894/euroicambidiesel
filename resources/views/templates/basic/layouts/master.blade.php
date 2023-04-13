@@ -130,7 +130,7 @@
 
 </head>
 
-<body style="padding-top: 134.2px;">
+<body style="padding-top: 134.2px;" onmousedown="return false" onselectstart="return false">
     <div id="home">
         <div class="overlay"></div>
         @if (!isset($withoutFooter))
