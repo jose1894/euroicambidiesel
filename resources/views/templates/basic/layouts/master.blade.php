@@ -130,7 +130,7 @@
 
 </head>
 
-<body style="padding-top: 134.2px;" onmousedown="return false" onselectstart="return false">
+<body style="padding-top: 134.2px;" onCut="return false;" onCopy="return false;" onselectstart="return false">
     <div id="home">
         <div class="overlay"></div>
         @if (!isset($withoutFooter))
@@ -231,6 +231,9 @@
 
             
     $( document ).ready(function() {
+          $('body').bind('cut copy', function(e) {
+              e.preventDefault();
+            });
         console.log( "document loaded" );
         $('#dynamic_content').fadeOut();
     });
