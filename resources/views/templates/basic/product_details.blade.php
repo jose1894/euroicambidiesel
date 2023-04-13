@@ -339,23 +339,17 @@
             @endif
             @if(isset($product->specification))
                 <div class="col-md-4 col-12 py-3">
-                    @foreach ($product->specification as $key => $features)
-                        <div class="accordion" id="features">
-                            <div class="card">
-                                <div class="card-header">
+                    <h4>Datos t&eacute;cnicos</h4>
+                    <table class="table d-block stripped">
 
-                                    <a class="collapsed d-block card-link" data-toggle="collapse" href="#feature-{{$key}}">
-                                        {{ $features['name'] }}
-                                    </a>
-                                </div>
-                                <div id="feature-{{$key}}" class="collapse" data-parent="#features">
-                                    <div class="card-body p-2">
-                                        {!! $features['value'] !!}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    @foreach ($product->specification as $key => $features)
+                        <tr>
+                            <td>
+                                        <b>{{ $features['name'] }}</b>: {!! $features['value'] !!}
+                            </td>
+                        </tr>
                     @endforeach
+                    </table>
                 </div>
             @endif
         </div>
