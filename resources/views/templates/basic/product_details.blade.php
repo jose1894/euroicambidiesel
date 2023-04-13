@@ -340,7 +340,7 @@
             @if(isset($product->specification))
                 <div class="col-md-4 col-12 py-3">
                     <h4>Datos t&eacute;cnicos</h4>
-                    <table class="table d-block stripped">
+                    <table class="table table-stripped d-block">
 
                     @foreach ($product->specification as $key => $features)
                         <tr>
