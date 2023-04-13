@@ -308,25 +308,53 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="background-color:#fff; border-radius:15px">
             @if(isset($product->extra_descriptions))
-                <div class="col-12 my-5">
-                    <h4 class="mb-3" >Descripción extra</h4>
-                    @foreach ($product->extra_descriptions as $extra)
-                        @foreach ($extra as $key => $value)
-                            {!! $value !!}
+                <div class=" col-md-8 col-12 py-3">
+                    <div class="container">
+                        <ul class="nav nav-tabs" role="tablist">
+                            @foreach ($product->extra_descriptions as $key => $extra)
+                                
+                            <li class="nav-item">
+                                <a class="nav-link @if ($key===1)
+                                    active
+                                @endif" data-toggle="tab" href="#tab-{{$key}}">{!! $extra['key'] !!}</a>
+                            </li>
+
+                                
+                            @endforeach
+                        </ul>
+
+                        <div class="tab-content">
+                        @foreach ($product->extra_descriptions as $key => $extra )
+                            <div id="tab-{{$key}}" class="container tab-pane @if ($key === 1)
+                                active
+                            @endif">
+                                <p>{!! $extra['value'] !!}</p>
+                            </div>
                         @endforeach
-                    @endforeach
+                        </div>
+                    </div>
                 </div>
             @endif
             @if(isset($product->specification))
-                <div class="col-12 my-5">
-                    <h4 class="mb-3">Especificaciones técnicas</h4>
-                    @foreach ($product->specification as $features)
-                        @foreach ($features as $key => $value)
-                            {!! $value !!}
-                        @endforeach
-                        <br>
+                <div class="col-md-4 col-12 py-3">
+                    @foreach ($product->specification as $key => $features)
+                        <div class="accordion" id="features">
+                            <div class="card">
+                                <div class="card-header">
+
+                                    <a class="collapsed d-block card-link" data-toggle="collapse" href="#feature-{{$key}}">
+                                        {{ $features['name'] }}
+                                    </a>
+                                </div>
+                                <div id="feature-{{$key}}" class="collapse" data-parent="#features">
+                                    <div class="card-body p-2">
+                                        {!! $features['value'] !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                 </div>
             @endif
