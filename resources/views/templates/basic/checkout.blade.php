@@ -1286,12 +1286,12 @@
                     id: 1,
                     name: "Inversiones Euro Ricambi, C.A.",
                     id_bank: 1,
-                    name_bank: "BANCO NACIONAL DE CREDITO",
+                    name_bank: "BANESCO",
                     rif: "J-29685116-6",
                     type: 1,
                     phone: "",
-                    account: "0191-0097-96-2197125411",
-                    img: "{{ getImage('assets/images/cash/bnc.png') }}"
+                    account: "0134-0467-4146-7304-7861",
+                    img: "{{ getImage('assets/images/cash/banesco.png') }}"
                 }, {
                     id: 2,
                     name: "Inversiones Euro Ricambi, C.A.",
@@ -1304,16 +1304,6 @@
                     img: "{{ getImage('assets/images/cash/provincial.png') }}"
                 }, {
                     id: 3,
-                    name: "Inversiones Euro Ricambi, C.A.",
-                    id_bank: 1,
-                    name_bank: "BANCO NACIONAL DE CREDITO",
-                    rif: "J-29685116-6",
-                    type: 2,
-                    phone: "0412-4170588",
-                    account: "",
-                    img: "{{ getImage('assets/images/cash/bnc.png') }}"
-                }, {
-                    id: 4,
                     name: "Inversiones Euro Ricambi, C.A.",
                     id_bank: 1,
                     name_bank: "BANCO PROVINCIAL",
