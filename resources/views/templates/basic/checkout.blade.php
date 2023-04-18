@@ -698,7 +698,7 @@
                                                 <h6 class="card-subtitle mt-1 mb-2 text-muted">Paypal</h6>
                                                 <div class="row">
                                                     <div class="col-md-12 col-lg-12">
-                                                        <a href="https://paypal.me/alfogolarexpress?country.x=VE&locale.x=es_XC"
+                                                        <a href="https://paypal.me/inveuroricambi?country.x=VE&locale.x=es_XC"
                                                             target="_blank"><img
                                                                 src="{{ asset('assets/images/gateway/paguepaypal.png') }}"
                                                                 alt="Paypal" class="img-prin img-fluid paypalpag"
@@ -1290,7 +1290,7 @@
                     rif: "J-29685116-6",
                     type: 1,
                     phone: "",
-                    account: "0134-0467-4146-7304-7861",
+                    account: "0134 0467 41 4630478 61",
                     img: "{{ getImage('assets/images/cash/banesco.png') }}"
                 }, {
                     id: 2,
@@ -1304,7 +1304,7 @@
                     img: "{{ getImage('assets/images/cash/provincial.png') }}"
                 }, {
                     id: 3,
-                    name: "Inversiones Euro Ricambi, C.A.",
+                    name: "Valtter Del Negro",
                     id_bank: 1,
                     name_bank: "BANCO PROVINCIAL",
                     rif: "V-12.312.073",
