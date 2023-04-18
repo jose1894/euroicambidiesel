@@ -1290,7 +1290,7 @@
                     rif: "J-29685116-6",
                     type: 1,
                     phone: "",
-                    account: "0134 0467 41 4630478 61",
+                    account: "0134 0467 41 46730478 61",
                     img: "{{ getImage('assets/images/cash/banesco.png') }}"
                 }, {
                     id: 2,
