@@ -35,7 +35,6 @@
                             </a>
                             <div class="item-descp">
 
-                                
                                 <span class="screenReaderOnlyText"></span>
                                 <h3 class="item-nomb">
                                     <a href="{{ route('product.detail', ['id' => $item->id, 'slug' => slug($item->name)]) }}"
@@ -44,6 +43,15 @@
                                 </h3>
                                 <p><span class="item-disp stock-argo">({{ $item['stocks']->count() > 0 ? $item['stocks'][0]->quantity : '0' }}
                                         @lang('product avaliable') )</span></p>
+
+                                <p style="font-size:12px" class="producto-brand">
+                                    <span data-automation-id="brand">Marca:</span> 
+                                    <span style="color:black">{{ $item->brand ? $item->brand->name : 'No definida'}}</span>
+                                </p>
+                                <p style="font-size:12px" class="producto-cod_int">
+                                    <span data-automation-id="cod_int">Codigo:</span>
+                                    <span style="color:black">{{ $item->internal_code }}</span>
+                                </p>
                                 {{-- <p class="producto-categ">
                                     @if (isset($item['categories']) && $item['categories']->count() > 0)
                                         @foreach ($item['categories'] as $category)
