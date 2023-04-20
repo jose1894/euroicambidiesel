@@ -956,6 +956,42 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="element-37" class="col-md-12 col-lg-12" style="display: none;">
+                                <div class="row">
+                                     <div class="col">
+                                        <div class="card mb-3 card-envio" id="" onclick="">
+                                            <div class="card-body">
+                                                <h6 class="card-subtitle mt-1 mb-2 text-muted">Acuerdo con el vendedor</h6>
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-6 col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="effective_amount"
+                                                                class="form-label texto-correcto">Monto
+                                                                {{ $general->cur_sym }}:</label>
+                                                            <input v-model="formcash.totaldollar"
+                                                                :readonly="blockInput == 0" type="text"
+                                                                class="form-control" id="effective_amount"
+                                                                name="effective_amount" aria-describedby="emailHelp">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="notecash"
+                                                                class="form-label texto-correcto">Nota:</label>
+                                                            <textarea class="form-control" id="notacash" rows="1" name="notecash" v-model="formcash.nota"></textarea>
+                                                            <div class="form-text textspan"><small>Ingresa
+                                                                    el monto del billete con el que pagaras, se aplicará
+                                                                    redondeo en compras con decimales</small></div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-12 col-lg-12">
                                 <div class="alert alert-success" role="alert" v-if="message">
                                     <small>@{{ message }}</small>
@@ -1474,6 +1510,7 @@
                         })
                 },
                 submit: function() {
+                    console.log('submit')
                     this.validateform();
                     if (this.error.length == 0) {
                         pay.loading = true;

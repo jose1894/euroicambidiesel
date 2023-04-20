@@ -32,7 +32,7 @@
 
                                 <td data-label="@lang('#')">{{$loop->iteration}}</td>
                                 <td data-label="@lang('Transaction ID')">{{$data->trx}}</td>
-                                <td data-label="@lang('Transaction ID')">{{$data->order['order_number']}}</td>
+                                <td data-label="@lang('Transaction ID')">{{ isset($data->order['order_number']) ? $data->order['order_number']  : 0}}</td>
                                 <td data-label="@lang('Gateway')">{{ __(optional($data->gateway)->name) }} {{ __(optional($data->gateway2)->name) }}</td>
                                 <td data-label="@lang('Amount')">
                                     <strong>{{getAmount($data->amount)}} {{$data->method_currency}}</strong>
@@ -74,10 +74,10 @@
                                         data-gateway="{{$gateway}}"
                                         data-gateway2="{{$gateway2}}"
                                         data-id="{{ $data->id }}"
-                                        data-subtotal='{{ number_format(getAmount($data->order['base_imponible'] + $data->order['excento']), 2, ",", ".") }} {{ $general->cur_sym }}'
-                                        data-baseimponible='{{ number_format(getAmount($data->order['base_imponible']), 2, ",", ".") }} {{ $general->cur_sym }}'
-                                        data-excento='{{ number_format(getAmount($data->order['excento']), 2, ",", ".") }} {{ $general->cur_sym }}'
-                                        data-iva='{{ number_format(getAmount($data->order['base_imponible'] * 0.16), 2, ",", ".") }} {{ $general->cur_sym }}'
+                                        data-subtotal='{{ isset($data->order['base_imponible']) ? number_format(getAmount($data->order['base_imponible'] + $data->order['excento']), 2, ",", ".") : 0 }} {{ $general->cur_sym }}'
+                                        data-baseimponible='{{ isset($data->order['base_imponible']) ? number_format(getAmount($data->order['base_imponible']), 2, ",", ".") : 0 }} {{ $general->cur_sym }}'
+                                        data-excento='{{ isset($data->order['excento']) ? number_format(getAmount($data->order['excento']), 2, ",", ".") : 0 }} {{ $general->cur_sym }}'
+                                        data-iva='{{ isset($data->order['base_imponible']) ? number_format(getAmount($data->order['base_imponible'] * 0.16), 2, ",", ".") : 0 }} {{ $general->cur_sym }}'
                                         data-amount='{{ number_format(getAmount($data->amount), 2, ",", ".") }} {{ $data->method_currency }}'
                                         data-charge='{{ number_format(getAmount($data->charge), 2, ",", ".") }} {{ $general->cur_sym }}'
                                         data-after_charge='{{ number_format(getAmount($data->amount + $data->charge), 2, ",", ".") }} {{ $data->method_currency }}'
