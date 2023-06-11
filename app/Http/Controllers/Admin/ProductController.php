@@ -668,7 +668,7 @@ class ProductController extends Controller
             }
         }
 
-        //return redirect()->back()->with('success', 'File imported successfully!');
+        return redirect()->back()->with('success', 'File imported successfully!');
     }
 
     public function export()
