@@ -645,7 +645,8 @@ class ProductController extends Controller
                 print_r($rowd[0]);
                 print "<br/>";
                 $product = Product::where('internal_code', $rowd[0])->first();
-                print_r($product);
+                dd($product);
+                //print_r($product);
                 // // dd($row);
                 // if ($product) {
                     
