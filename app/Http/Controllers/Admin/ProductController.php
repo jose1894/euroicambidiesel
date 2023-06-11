@@ -645,27 +645,27 @@ class ProductController extends Controller
                 print_r($rowd[0]);
                 print "<br/>";
                 $product = Product::where('internal_code', $rowd[0])->first();
-                dd($product);
                 //print_r($product);
                 // // dd($row);
-                // if ($product) {
+                if ($product) {
                     
-                //     $iva = ProductIva::where('percentage', isset($rowd[2]) ? $rowd[2] : 16)->first();
-                //     $product->base_price          = isset($rowd[3]) ? $rowd[3] : 0;
-                //     $product->prime_price          = isset($rowd[5]) ? $rowd[5] : 0;
+                    //     $iva = ProductIva::where('percentage', isset($rowd[2]) ? $rowd[2] : 16)->first();
+                    //     $product->base_price          = isset($rowd[3]) ? $rowd[3] : 0;
+                    //     $product->prime_price          = isset($rowd[5]) ? $rowd[5] : 0;
                     
-                //     if ($iva) {
-                //         $product->iva          = $iva ? 1 : 0;
-                //         $product->iva_id          = $iva ? $iva->id : 0;
-                //     }
-                    
-                //     $stock = ProductStock::where('product_id', $product->id)->first();
+                    //     if ($iva) {
+                        //         $product->iva          = $iva ? 1 : 0;
+                        //         $product->iva_id          = $iva ? $iva->id : 0;
+                        //     }
+                        
+                        $stock = ProductStock::where('product_id', $product->id)->first();
+                        dd($stock);
                 //     if (isset($stock)) {
                 //         $stock->quantity = isset($rowd[8]) ? $rowd[8] : 0;
                 //         $stock->save();
                 //     }
                 //     $product->save();
-                // }
+                }
             }
         }
 
