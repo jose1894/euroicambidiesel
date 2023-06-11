@@ -642,8 +642,10 @@ class ProductController extends Controller
         //dd($rows);
         foreach ($rows as $row) {
             foreach ($row as $rowd) {
-                //print_r($rowd[8]);
-                // $product = Product::where('internal_code', $rowd[0])->first();
+                print_r($rowd[0]);
+                print "<br/>";
+                $product = Product::where('internal_code', $rowd[0])->first();
+                print_r($product);
                 // // dd($row);
                 // if ($product) {
                     
@@ -665,7 +667,8 @@ class ProductController extends Controller
                 // }
             }
         }
-        return redirect()->back()->with('success', 'File imported successfully!');
+
+        //return redirect()->back()->with('success', 'File imported successfully!');
     }
 
     public function export()
