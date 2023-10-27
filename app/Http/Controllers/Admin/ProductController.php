@@ -642,9 +642,11 @@ class ProductController extends Controller
         //dd($rows);
         foreach ($rows as $row) {
             foreach ($row as $rowd) {
-                //print_r($rowd[8]);
+                // print_r($rowd[0]);
+                // print "<br/>";
                 $product = Product::where('internal_code', $rowd[0])->first();
-                // dd($row);
+                // print_r($product);
+                // // dd($row);
                 if ($product) {
                     
                     $iva = ProductIva::where('percentage', isset($rowd[2]) ? $rowd[2] : 16)->first();
@@ -665,6 +667,7 @@ class ProductController extends Controller
                 }
             }
         }
+
         return redirect()->back()->with('success', 'File imported successfully!');
     }
 

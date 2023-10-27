@@ -62,6 +62,6 @@ class Category extends Model
        // ->take(4)
        ->inRandomOrder()
         //->orderBy('id', 'desc')
-        ->limit(6);
+        ->limit(12);
     }
 }
