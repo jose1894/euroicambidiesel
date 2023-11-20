@@ -141,6 +141,35 @@
 
     {{-- IMPORT METHOD MODAL --}}
 
+    <div class="modal fade" id="import-modal-new" tabindex="-1" role="dialog" aria-labelledby="importModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="{{ route('admin.products.importnew') }}" method="POST" id="ImportForm" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title text-capitalize" id="ImportModalLabel">Importar Excel</h5>
+                        <span>Lista de Productos Modificado Precio y Cantidad Stock</span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col6">
+                            <input type="file" name="fileSelectnew" accept=".xlsx, .xls, .csv" ID="fileSelect">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn--dark" data-dismiss="modal">@lang('Cerrar')</button>
+                        <button type="submit" class="btn btn--success">@lang('Importar')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- IMPORT METHOD MODAL --}}
+
     <div class="modal fade" id="import-modal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -254,6 +283,8 @@
             <i class="la la-cloud-download"></i>Exportar Excel</a>
             <a href="javascript:void(0)" class="import-btn btn btn-sm btn--primary box--shadow1 text--small">
             <i class="la la-cloud-upload"></i>Importar Excel</a>
+            <a href="javascript:void(0)" class="import-btn-new btn btn-sm btn--primary box--shadow1 text--small">
+                <i class="la la-cloud-upload"></i>Importar Productos Nuevos</a>
         <a href="{{ route('admin.products.create') }}" title="@lang('Shortcut'): shift+n"
             class="btn btn-sm btn--success box--shadow1 text--small"><i class="la la-plus"></i>Agregar Nuevo</a>
     @else
@@ -309,6 +340,11 @@
 
             $('.import-btn').on('click', function(e) {
                 let modal = $('#import-modal')
+                modal.modal('show');
+            });
+
+            $('.import-btn-new').on('click', function(e) {
+                let modal = $('#import-modal-new')
                 modal.modal('show');
             });
 

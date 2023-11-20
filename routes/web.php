@@ -173,6 +173,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('product/filters/', 'ProductController@productFilters')->name('products.filters');
         Route::get('product-storecombo', 'ProductController@storeCombo')->name('products.storecombo');
         Route::post('product-import', 'ProductController@import')->name('products.import');
+        Route::post('product-importnew', 'ProductController@importNew')->name('products.importnew');
         Route::get('product-export', 'ProductController@export')->name('products.export');
 
         Route::get('product/reviews', 'ProductController@reviews')->name('product.reviews');
