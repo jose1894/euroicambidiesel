@@ -666,7 +666,7 @@ class ProductController extends Controller
                             'category' => $category,
                             'name' => ucwords(strtolower($rowd[4]))
                         ];
-                        dd($category);
+                        dd($category[1]);
                             // $id = DB::table('products')->insertGetId($product);
 
                         // $product = Product::find($id);
