@@ -663,7 +663,7 @@ class ProductController extends Controller
                         $category = Category::where('name', ucwords(strtolower($rowd[4])))->latest()->get();
                           
                         $data = [
-                            'category' => $category,
+                            'category' => $category->id,
                             'name' => ucwords(strtolower($rowd[4]))
                         ];
                         dd($data);
