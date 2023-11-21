@@ -668,7 +668,7 @@ class ProductController extends Controller
                             $productSave = Product::find($id);
                         
                             $productSave->categories()->attach($category[0]->id);
-                            // $productSave->tags()->attach(1);
+                            $productSave->tags()->attach(36);
 
                             $productStock = [
                                 'product_id' => $productSave->id,
