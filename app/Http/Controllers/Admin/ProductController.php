@@ -662,7 +662,7 @@ class ProductController extends Controller
 
                         $category = Category::where('name', $rowd[3])->latest()->get();
                             
-                        dd($data);
+                        dd($category);
                             // $id = DB::table('products')->insertGetId($product);
 
                         // $product = Product::find($id);
