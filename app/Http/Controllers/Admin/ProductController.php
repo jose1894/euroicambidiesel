@@ -667,7 +667,7 @@ class ProductController extends Controller
                             $id = DB::table('products')->insertGetId($data);
                             
                             $productSave = Product::find($id);
-                            dd($id);
+                            // dd($id);
                         
                             $productSave->categories()->attach([$category[0]->id]);
                             $productSave->tags()->attach([1]);
