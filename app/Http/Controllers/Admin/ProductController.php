@@ -21,6 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Excel;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -666,20 +667,20 @@ class ProductController extends Controller
                             'category' => $category,
                             'name' => ucwords(strtolower($rowd[4]))
                         ];
-                        dd($category[0]->name);
-                            // $id = DB::table('products')->insertGetId($product);
+                        // dd($category[0]->id);
+                            $id = DB::table('products')->insertGetId($product);
 
-                        // $product = Product::find($id);
+                        $product = Product::find($id);
 
-                        // $product->categories()->attach([$categories[$indexDepartment]['id'], $categories[$indexGroup]['id']]);
-                        // $product->tags()->attach([1, $tags_departamento->id]);
+                        $product->categories()->attach([$category[0]->id]);
+                        $product->tags()->attach([1]);
 
-                        // $productStock = [
-                        //     'product_id' => $product->id,
-                        //     'sku' => $rowd[2],
-                        //     'quantity' => 1,
-                        // ];
-                        // ProductStock::insert($productStock);
+                        $productStock = [
+                            'product_id' => $product->id,
+                            'sku' => $rowd[2],
+                            'quantity' => 1,
+                        ];
+                        ProductStock::insert($productStock);
 
                     }
                 }
