@@ -676,7 +676,7 @@ class ProductController extends Controller
                                 'quantity' => 1,
                             ];
                             ProductStock::insert($productStock);
-                            // dd('ok');
+                            dd('ok');
                         }
                     }
                 }
