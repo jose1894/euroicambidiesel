@@ -663,24 +663,26 @@ class ProductController extends Controller
                             ];
 
                             $category = Category::where('name', ucwords(strtolower($rowd[4])))->latest()->get();
-                            $id = DB::table('products')->insertGetId($data);
+                            // $id = DB::table('products')->insertGetId($data);
                             
-                            $productSave = Product::find($id);
+                            // $productSave = Product::find($id);
                         
-                            $productSave->categories()->attach($category[0]->id);
-                            $productSave->tags()->attach(36);
+                            // $productSave->categories()->attach($category[0]->id);
+                            // $productSave->tags()->attach(36);
 
-                            $productStock = [
-                                'product_id' => $productSave->id,
-                                'sku' => $rowd[2],
-                                'quantity' => 1,
-                            ];
-                            ProductStock::insert($productStock);
-                            dd('ok');
+                            // $productStock = [
+                            //     'product_id' => $productSave->id,
+                            //     'sku' => $rowd[2],
+                            //     'quantity' => 1,
+                            // ];
+                            // ProductStock::insert($productStock);
+                            // dd('ok');
+                            $array[] = $category[0];
                         }
                     }
                 }
             }
+            dd($array);
             DB::commit();
         } catch (ErrorException $e) {
             DB::rollBack();
