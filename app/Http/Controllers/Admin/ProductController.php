@@ -639,50 +639,45 @@ class ProductController extends Controller
     public function importNew(Request $request)
     {
         $rows = Excel::toArray(new ProductImport, request()->file('fileSelectnew'));
+        // dd($rows[1]);
         try {
             DB::beginTransaction();
-            foreach ($rows as $row) 
-            {
-                foreach ($row as $rowd) 
-                {
-                    if ($rowd[2] !== 'SKU') 
-                    {
-                        $product = Product::where('internal_code', $rowd[2])->first();
-                        if (!$product) 
-                        {
-                            if (isset($rowd[4])) 
-                            {
-                                $category = Category::where('name', ucwords(strtolower($rowd[4])))->latest()->get();
-                                
-                                if (isset($category[0])) 
-                                {                                    
-                                    $data = [
-                                        'brand_id' => NULL,
-                                        'sku' => $rowd[2],
-                                        'internal_code' => $rowd[2],
-                                        'name' => ucwords(strtolower($rowd[3])),
-                                        'description' => $rowd[3],
-                                        'base_price' => 1,
-                                        'prime_price' => 1,
-                                        'iva' => 0,
-                                        'iva_id' => 0
-                                    ];
+            foreach ($rows[1] as $row) {
+                // dd($row);
+                if ($row[2] !== 'SKU') {
+                    $product = Product::where('internal_code', $row[2])->first();
+                    if (!$product) {
+                        if (isset($row[4])) {
+                            $category = Category::where('name', ucwords(strtolower($row[4])))->latest()->get();
 
-                                    $id = DB::table('products')->insertGetId($data);
+                            if (isset($category[0])) {
+                                $data = [
+                                    'brand_id' => NULL,
+                                    'sku' => $row[2],
+                                    'internal_code' => $row[2],
+                                    'name' => $row[3] , //ucwords(strtolower($rowd[3])),
+                                    'description' => $row[3],
+                                    'base_price' => 1,
+                                    'prime_price' => 0,
+                                    'iva' => 0,
+                                    'iva_id' => 0,
+                                    'model' => $row[4]
+                                ];
 
-                                    $productSave = Product::find($id);
+                                $id = DB::table('products')->insertGetId($data);
 
-                                    $productSave->categories()->attach($category[0]->id);
-                                    $productSave->tags()->attach(36);
+                                $productSave = Product::find($id);
 
-                                    $productStock = [
-                                        'product_id' => $productSave->id,
-                                        'sku' => $rowd[2],
-                                        'quantity' => 1,
-                                    ];
+                                $productSave->categories()->attach($category[0]->id);
+                                $productSave->tags()->attach(36);
 
-                                    ProductStock::insert($productStock);
-                                }
+                                $productStock = [
+                                    'product_id' => $productSave->id,
+                                    'sku' => $row[2],
+                                    'quantity' => 1,
+                                ];
+
+                                ProductStock::insert($productStock);
                             }
                         }
                     }

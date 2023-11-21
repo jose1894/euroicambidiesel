@@ -283,8 +283,8 @@
             <i class="la la-cloud-download"></i>Exportar Excel</a>
             <a href="javascript:void(0)" class="import-btn btn btn-sm btn--primary box--shadow1 text--small">
             <i class="la la-cloud-upload"></i>Importar Excel</a>
-            {{-- <a href="javascript:void(0)" class="import-btn-new btn btn-sm btn--primary box--shadow1 text--small">
-                <i class="la la-cloud-upload"></i>Importar Productos Nuevos</a> --}}
+            <a href="javascript:void(0)" class="import-btn-new btn btn-sm btn--primary box--shadow1 text--small">
+                <i class="la la-cloud-upload"></i>Importar Productos Nuevos</a>
         <a href="{{ route('admin.products.create') }}" title="@lang('Shortcut'): shift+n"
             class="btn btn-sm btn--success box--shadow1 text--small"><i class="la la-plus"></i>Agregar Nuevo</a>
     @else
