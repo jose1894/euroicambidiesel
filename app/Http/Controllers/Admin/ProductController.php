@@ -664,11 +664,10 @@ class ProductController extends Controller
                             ];
 
                             $category = Category::where('name', ucwords(strtolower($rowd[4])))->latest()->get();
-
+                            dd($category);
                             $id = DB::table('products')->insertGetId($data);
 
                             $productSave = Product::find($id);
-
                             $productSave->categories()->attach([$category[0]->id]);
                             $productSave->tags()->attach([1]);
 
@@ -678,7 +677,7 @@ class ProductController extends Controller
                                 'quantity' => 1,
                             ];
                             ProductStock::insert($productStock);
-                            dd($productSave);
+                            // dd($productSave);
                         }
                     }
                 }
