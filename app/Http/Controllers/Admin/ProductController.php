@@ -636,57 +636,55 @@ class ProductController extends Controller
         $combo->save();
     }
 
-    public function importNew(Request $request) {
+    public function importNew(Request $request)
+    {
         $rows = Excel::toArray(new ProductImport, request()->file('fileSelectnew'));
-        foreach ($rows as $row) {
-            foreach ($row as $rowd) 
-            {
-                if($rowd[2] !== 'SKU')
-                {                    
-                    // dd($rowd[2]);
-                    $product = Product::where('internal_code', $rowd[2])->first();
-                    if (!$product) 
-                    {
-                        
-                        $data = [
-                            'brand_id' => NULL,
-                            'sku' => $rowd[2],
-                            'internal_code' => $rowd[2],
-                            'name' => ucwords(strtolower($rowd[3])),
-                            // 'slug' => Str::slug($rowd[3], '-'),
-                            'description' => $rowd[3],
-                            'base_price' => 1,
-                            'prime_price' => 1,
-                            'iva' => 0,
-                            'iva_id' => 0
-                        ];
+        try {
+            DB::beginTransaction();
+            foreach ($rows as $row) {
+                foreach ($row as $rowd) {
+                    if ($rowd[2] !== 'SKU') {
+                        // dd($rowd[2]);
+                        $product = Product::where('internal_code', $rowd[2])->first();
+                        if (!$product) {
 
-                        $category = Category::where('name', ucwords(strtolower($rowd[4])))->latest()->get();
-                          
-                        $data = [
-                            'category' => $category,
-                            'name' => ucwords(strtolower($rowd[4]))
-                        ];
-                        // dd($category[0]->id);
-                            $id = DB::table('products')->insertGetId($product);
+                            $data = [
+                                'brand_id' => NULL,
+                                'sku' => $rowd[2],
+                                'internal_code' => $rowd[2],
+                                'name' => ucwords(strtolower($rowd[3])),
+                                // 'slug' => Str::slug($rowd[3], '-'),
+                                'description' => $rowd[3],
+                                'base_price' => 1,
+                                'prime_price' => 1,
+                                'iva' => 0,
+                                'iva_id' => 0
+                            ];
 
-                        $product = Product::find($id);
+                            $category = Category::where('name', ucwords(strtolower($rowd[4])))->latest()->get();
 
-                        $product->categories()->attach([$category[0]->id]);
-                        $product->tags()->attach([1]);
+                            $id = DB::table('products')->insertGetId($data);
 
-                        $productStock = [
-                            'product_id' => $product->id,
-                            'sku' => $rowd[2],
-                            'quantity' => 1,
-                        ];
-                        ProductStock::insert($productStock);
+                            $product = Product::find($id);
 
+                            $product->categories()->attach([$category[0]->id]);
+                            $product->tags()->attach([1]);
+
+                            $productStock = [
+                                'product_id' => $product->id,
+                                'sku' => $rowd[2],
+                                'quantity' => 1,
+                            ];
+                            ProductStock::insert($productStock);
+                        }
                     }
                 }
             }
+            DB::commit();
+        } catch (ErrorException $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Error']);
         }
-
     }
 
     public function import(Request $request)
@@ -694,21 +692,19 @@ class ProductController extends Controller
         $rows = Excel::toArray(new ProductImport, request()->file('fileSelect'));
         //dd($rows);
         foreach ($rows as $row) {
-            foreach ($row as $rowd) 
-            {
+            foreach ($row as $rowd) {
                 $product = Product::where('internal_code', $rowd[0])->first();
 
-                if ($product) 
-                {   
+                if ($product) {
                     $iva = ProductIva::where('percentage', isset($rowd[2]) ? $rowd[2] : 16)->first();
                     $product->base_price          = isset($rowd[3]) ? $rowd[3] : 0;
                     $product->prime_price          = isset($rowd[5]) ? $rowd[5] : 0;
-                    
+
                     if ($iva) {
                         $product->iva          = $iva ? 1 : 0;
                         $product->iva_id          = $iva ? $iva->id : 0;
                     }
-                    
+
                     $stock = ProductStock::where('product_id', $product->id)->first();
                     if (isset($stock)) {
                         $stock->quantity = isset($rowd[8]) ? $rowd[8] : 0;
