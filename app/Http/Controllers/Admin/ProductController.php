@@ -641,13 +641,15 @@ class ProductController extends Controller
         $rows = Excel::toArray(new ProductImport, request()->file('fileSelectnew'));
         try {
             DB::beginTransaction();
-            foreach ($rows as $row) {
-                foreach ($row as $rowd) {
-                    if ($rowd[2] !== 'SKU') {
-                        // dd($rowd[2]);
+            foreach ($rows as $row) 
+            {
+                foreach ($row as $rowd) 
+                {
+                    if ($rowd[2] !== 'SKU') 
+                    {
                         $product = Product::where('internal_code', $rowd[2])->first();
-                        if (!$product) {
-
+                        if (!$product) 
+                        {
                             $data = [
                                 'brand_id' => NULL,
                                 'sku' => $rowd[2],
@@ -665,17 +667,18 @@ class ProductController extends Controller
 
                             $id = DB::table('products')->insertGetId($data);
 
-                            $product = Product::find($id);
+                            $productSave = Product::find($id);
 
-                            $product->categories()->attach([$category[0]->id]);
-                            $product->tags()->attach([1]);
+                            $productSave->categories()->attach([$category[0]->id]);
+                            $productSave->tags()->attach([1]);
 
                             $productStock = [
-                                'product_id' => $product->id,
+                                'product_id' => $productSave->id,
                                 'sku' => $rowd[2],
                                 'quantity' => 1,
                             ];
                             ProductStock::insert($productStock);
+                            dd($productSave);
                         }
                     }
                 }
