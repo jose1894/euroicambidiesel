@@ -78,7 +78,7 @@
                                             {{ $products->firstItem() + $loop->index }}
                                         </td>
                                         <td data-label="Id">
-                                            {{ $products->internal_code }}
+                                            {{ $product->internal_code }}
                                         </td>
 
                                         <td data-label="@lang('Thumbnail')">
