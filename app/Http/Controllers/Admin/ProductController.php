@@ -68,7 +68,10 @@ class ProductController extends Controller
                 //->whereHas('brand')
                 //->whereHas('categories')
                 ->orderByDesc('id')
-                ->where('name', 'like', "%$search%")->paginate(getPaginate());
+                ->where('name', 'like', '%' . $search . '%')
+                ->orWhere('sku', 'like', '%' . $search . '%')
+                ->orWhere('internal_code', 'like', '%' . $search . '%')
+                ->paginate(getPaginate());
 
             $page_title     = 'Buscar Producto - ' . $search;
             return view('admin.products.index', compact('page_title', 'empty_message', 'products', 'now'));
