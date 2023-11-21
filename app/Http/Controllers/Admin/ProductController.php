@@ -655,7 +655,6 @@ class ProductController extends Controller
                                 'sku' => $rowd[2],
                                 'internal_code' => $rowd[2],
                                 'name' => ucwords(strtolower($rowd[3])),
-                                // 'slug' => Str::slug($rowd[3], '-'),
                                 'description' => $rowd[3],
                                 'base_price' => 1,
                                 'prime_price' => 1,
@@ -667,7 +666,6 @@ class ProductController extends Controller
                             $id = DB::table('products')->insertGetId($data);
                             
                             $productSave = Product::find($id);
-                            // dd($category[0]->id);
                         
                             $productSave->categories()->attach($category[0]->id);
                             $productSave->tags()->attach(1);
@@ -678,7 +676,6 @@ class ProductController extends Controller
                                 'quantity' => 1,
                             ];
                             ProductStock::insert($productStock);
-                            // dd($productSave);
                         }
                     }
                 }
@@ -686,6 +683,7 @@ class ProductController extends Controller
             DB::commit();
         } catch (ErrorException $e) {
             DB::rollBack();
+            dd($e);
             return response()->json(['message' => 'Error']);
         }
     }
