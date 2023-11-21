@@ -660,8 +660,12 @@ class ProductController extends Controller
                             'iva_id' => 0
                         ];
 
-                        $category = Category::where('name', $rowd[3])->latest()->get();
-                            
+                        $category = Category::where('name', ucwords(strtolower($rowd[4])))->latest()->get();
+                          
+                        $data = [
+                            'category' => $category,
+                            'name' => ucwords(strtolower($rowd[4]))
+                        ];
                         dd($data);
                             // $id = DB::table('products')->insertGetId($product);
 
