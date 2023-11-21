@@ -650,43 +650,48 @@ class ProductController extends Controller
                         $product = Product::where('internal_code', $rowd[2])->first();
                         if (!$product) 
                         {
-                            $data = [
-                                'brand_id' => NULL,
-                                'sku' => $rowd[2],
-                                'internal_code' => $rowd[2],
-                                'name' => ucwords(strtolower($rowd[3])),
-                                'description' => $rowd[3],
-                                'base_price' => 1,
-                                'prime_price' => 1,
-                                'iva' => 0,
-                                'iva_id' => 0
-                            ];
+                            if (isset($rowd[4])) 
+                            {
+                                $category = Category::where('name', ucwords(strtolower($rowd[4])))->latest()->get();
+                                
+                                if (isset($category[0])) 
+                                {                                    
+                                    $data = [
+                                        'brand_id' => NULL,
+                                        'sku' => $rowd[2],
+                                        'internal_code' => $rowd[2],
+                                        'name' => ucwords(strtolower($rowd[3])),
+                                        'description' => $rowd[3],
+                                        'base_price' => 1,
+                                        'prime_price' => 1,
+                                        'iva' => 0,
+                                        'iva_id' => 0
+                                    ];
 
-                            $category = Category::where('name', ucwords(strtolower($rowd[4])))->latest()->get();
-                            // $id = DB::table('products')->insertGetId($data);
-                            
-                            // $productSave = Product::find($id);
-                        
-                            // $productSave->categories()->attach($category[0]->id);
-                            // $productSave->tags()->attach(36);
+                                    $id = DB::table('products')->insertGetId($data);
 
-                            // $productStock = [
-                            //     'product_id' => $productSave->id,
-                            //     'sku' => $rowd[2],
-                            //     'quantity' => 1,
-                            // ];
-                            // ProductStock::insert($productStock);
-                            // dd('ok');
-                            $array[] = $category[0];
+                                    $productSave = Product::find($id);
+
+                                    $productSave->categories()->attach($category[0]->id);
+                                    $productSave->tags()->attach(36);
+
+                                    $productStock = [
+                                        'product_id' => $productSave->id,
+                                        'sku' => $rowd[2],
+                                        'quantity' => 1,
+                                    ];
+
+                                    ProductStock::insert($productStock);
+                                }
+                            }
                         }
                     }
                 }
             }
-            dd($array);
             DB::commit();
+            return redirect()->back()->with('success', 'File imported successfully!');
         } catch (ErrorException $e) {
             DB::rollBack();
-            dd($e);
             return response()->json(['message' => 'Error']);
         }
     }
