@@ -25,7 +25,9 @@
                         <table class="table table--light style--two">
                             <thead>
                                 <tr>
+                                    <th>@lang('Action')</th>
                                     <th>@lang('Id')</th>
+                                    <th>Código Interno</th>
                                     <th>Miniatura</th>
                                     <th>Nombre</th>
                                     <th>Marca</th>
@@ -33,14 +35,50 @@
                                     <th>Precio Prime</th>
                                     <th>Existencias</th>
                                     <th>IVA</th>
-                                    <th>@lang('Action')</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($products as $product)
                                     <tr>
+                                        <td data-label="@lang('Action')">
+                                            <a href="javascript:void(0)"
+                                                class="highlight-btn icon-btn btn--success {{ $product->trashed() ? 'disabled' : '' }} mr-1"
+                                                data-toggle="tooltip" data-placement="top" title="Destacar"
+                                                data-id="{{ $product->id }}" data-featured="{{ $product->is_featured }}"
+                                                data-special="{{ $product->is_special }}">
+                                                <i class="la la-highlighter"></i>
+                                            </a>
+
+                                            <a href="@if ($product->trashed()) javascript:void(0) @else {{ route('admin.products.edit', [$product->id, slug($product->name)]) }} @endif"
+                                                class="icon-btn btn--primary {{ $product->trashed() ? 'disabled' : '' }} mr-1"
+                                                data-toggle="tooltip" data-placement="top" title="Editar">
+                                                <i class="la  la-edit"></i>
+                                            </a>
+
+                                            <!-- <a href="@if ($product->trashed()) javascript:void(0) @else {{ route('admin.products.attribute-add', [$product->id]) }} @endif" class="icon-btn btn--info text-white {{ $product->trashed() ? 'disabled' : '' }} {{ $product->has_variants ? '' : 'disabled' }} mr-1" data-toggle="tooltip" data-placement="top" title="Agregar Variante">
+                                            <i class="la la-palette"></i>
+                                            </a> -->
+
+                                            <a href="@if ($product->trashed()) javascript:void(0) @else {{ route('admin.products.stock.create', [$product->id]) }} @endif"
+                                                class="icon-btn btn--warning text-white {{ $product->trashed() ? 'disabled' : '' }} {{ $product->track_inventory ? '' : 'disabled' }} mr-1"
+                                                data-toggle="tooltip" data-placement="top" title="Gestionar Inventario">
+                                                <i class="fas fa-database"></i>
+                                            </a>
+
+                                            <button type="button"
+                                                class="icon-btn btn--{{ $product->trashed() ? 'success' : 'danger' }} deleteBtn"
+                                                data-toggle="tooltip"
+                                                data-title="{{ $product->trashed() ? 'Restaurar' : 'Eliminar' }}"
+                                                data-type="{{ $product->trashed() ? 'Restaurar' : 'Eliminar' }}"
+                                                data-id='{{ $product->id }}'>
+                                                <i class="la la-{{ $product->trashed() ? 'redo' : 'trash' }}"></i>
+                                            </button>
+                                        </td>
                                         <td data-label="Id">
                                             {{ $products->firstItem() + $loop->index }}
+                                        </td>
+                                        <td data-label="Id">
+                                            {{ $product->internal_code }}
                                         </td>
 
                                         <td data-label="@lang('Thumbnail')">
@@ -85,40 +123,7 @@
                                             @endif
                                         </td>
 
-                                        <td data-label="@lang('Action')">
-                                            <a href="javascript:void(0)"
-                                                class="highlight-btn icon-btn btn--success {{ $product->trashed() ? 'disabled' : '' }} mr-1"
-                                                data-toggle="tooltip" data-placement="top" title="Destacar"
-                                                data-id="{{ $product->id }}" data-featured="{{ $product->is_featured }}"
-                                                data-special="{{ $product->is_special }}">
-                                                <i class="la la-highlighter"></i>
-                                            </a>
-
-                                            <a href="@if ($product->trashed()) javascript:void(0) @else {{ route('admin.products.edit', [$product->id, slug($product->name)]) }} @endif"
-                                                class="icon-btn btn--primary {{ $product->trashed() ? 'disabled' : '' }} mr-1"
-                                                data-toggle="tooltip" data-placement="top" title="Editar">
-                                                <i class="la  la-edit"></i>
-                                            </a>
-
-                                            <!-- <a href="@if ($product->trashed()) javascript:void(0) @else {{ route('admin.products.attribute-add', [$product->id]) }} @endif" class="icon-btn btn--info text-white {{ $product->trashed() ? 'disabled' : '' }} {{ $product->has_variants ? '' : 'disabled' }} mr-1" data-toggle="tooltip" data-placement="top" title="Agregar Variante">
-                                            <i class="la la-palette"></i>
-                                        </a> -->
-
-                                            <a href="@if ($product->trashed()) javascript:void(0) @else {{ route('admin.products.stock.create', [$product->id]) }} @endif"
-                                                class="icon-btn btn--warning text-white {{ $product->trashed() ? 'disabled' : '' }} {{ $product->track_inventory ? '' : 'disabled' }} mr-1"
-                                                data-toggle="tooltip" data-placement="top" title="Gestionar Inventario">
-                                                <i class="fas fa-database"></i>
-                                            </a>
-
-                                            <button type="button"
-                                                class="icon-btn btn--{{ $product->trashed() ? 'success' : 'danger' }} deleteBtn"
-                                                data-toggle="tooltip"
-                                                data-title="{{ $product->trashed() ? 'Restaurar' : 'Eliminar' }}"
-                                                data-type="{{ $product->trashed() ? 'Restaurar' : 'Eliminar' }}"
-                                                data-id='{{ $product->id }}'>
-                                                <i class="la la-{{ $product->trashed() ? 'redo' : 'trash' }}"></i>
-                                            </button>
-                                        </td>
+                                        
                                     </tr>
                                 @empty
                                     <tr>
@@ -283,8 +288,8 @@
             <i class="la la-cloud-download"></i>Exportar Excel</a>
             <a href="javascript:void(0)" class="import-btn btn btn-sm btn--primary box--shadow1 text--small">
             <i class="la la-cloud-upload"></i>Importar Excel</a>
-            <a href="javascript:void(0)" class="import-btn-new btn btn-sm btn--primary box--shadow1 text--small">
-                <i class="la la-cloud-upload"></i>Importar Productos Nuevos</a>
+            {{-- <a href="javascript:void(0)" class="import-btn-new btn btn-sm btn--primary box--shadow1 text--small">
+                <i class="la la-cloud-upload"></i>Importar Productos Nuevos</a> --}}
         <a href="{{ route('admin.products.create') }}" title="@lang('Shortcut'): shift+n"
             class="btn btn-sm btn--success box--shadow1 text--small"><i class="la la-plus"></i>Agregar Nuevo</a>
     @else
