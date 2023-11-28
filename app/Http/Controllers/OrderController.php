@@ -687,7 +687,6 @@ class OrderController extends Controller
     }
 
     public function confirmOrder(Request $request){
-        //return $request->all();
         $general = GeneralSetting::first();
         $notify[] = [];
         $payment = 1;
@@ -940,7 +939,7 @@ class OrderController extends Controller
         $order->shipping_method_id  = $request->checkbox_shipping;
         $order->shipping_charge     = $shipping_data->charge;
         $order->invoice_information = json_encode($invoice_information);
-        $order->order_type          = 1;
+        $order->order_type          = $request->order_type; // 1 = Facturada 2 = Nota de Entrega
         $order->payment_status      = 1;
         isset($request->propina_form) ? $order->propina = $request->propina_form : $order->propina = 0;
         isset($request->coupon_amount) ? $order->coupon_amount = $request->coupon_amount : $order->coupon_amount = 0;
@@ -1006,6 +1005,8 @@ class OrderController extends Controller
 
 
         }
+
+        $iva = $request->order_type === 1 ? getAmount($iva) : 0;
 
         $order->base_imponible = getAmount($base_imponible);
         $order->excento = getAmount($excento);

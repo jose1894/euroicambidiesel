@@ -143,7 +143,7 @@ class UserController extends Controller
         }
         $page = $request->page;
 
-        $logs = auth()->user()->deposits()->with(['gateway','order:id,order_number,base_imponible,excento,total_amount'])->latest()->paginate(getPaginate());
+        $logs = auth()->user()->deposits()->with(['gateway','order:id,order_number,base_imponible,excento,total_amount,order_type'])->latest()->paginate(getPaginate());
 
         foreach($logs as $item){
             if($item->method_currency == 'USD' || $item->method_currency == 'USD$' || $item->method_currency == 'USDT'){

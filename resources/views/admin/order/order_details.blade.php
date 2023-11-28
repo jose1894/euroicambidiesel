@@ -67,8 +67,8 @@
                         <div class="col-md-4">
                             <b>@lang('Order ID'):</b> {{$order->order_number}}<br>
                             <b>@lang('Order Date'):</b> {{showDateTime($order->created_at, 'd/m/Y')}} <br>
-                            <b>Monto Total:</b> {{$general->cur_sym.$order->total_amount}}
-
+                            <b>Monto Total:</b> {{$general->cur_sym.$order->total_amount}}<br>
+                            <b>Tipo de orden:</b> {{$order->order_type == 1 ? 'Factura' : 'Nota de entrega'}}
                             <br> <br>
                             <div>
                                 <h5 class="mb-2">Metodo de envío</h5>

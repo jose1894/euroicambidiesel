@@ -29,6 +29,7 @@
                                 <th class="text-left">@lang('Payment Via')</th>
                                 @endif
                                 <th class="text-right">@lang('Amount')</th>
+                                <th class="text-right">@lang('Tipo')</th>
                                 @if(request()->routeIs('admin.order.index'))
                                     <th>@lang('Status')</th>
                                 @endif
@@ -64,6 +65,9 @@
 
                                 <td data-label="Amount" class="text-right">
                                     <b>{{ $general->cur_sym.($item->total_amount) }}</b>
+                                </td>
+                                <td data-label="Amount" class="text-center">
+                                    <b>{{ $item->order_type == 1 ? 'Factura' : 'Nota de entrega' }}</b>
                                 </td>
                                 @if(request()->routeIs('admin.order.index'))
                                 <td data-label="Status" class="text-center">

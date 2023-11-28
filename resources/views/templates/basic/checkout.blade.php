@@ -109,7 +109,7 @@
                                         <li>
                                             <span class="subtitle">@lang('IVA')</span>
                                             <span
-                                                class="cl-title">{{ $general->cur_sym }}{{ getAmount($iva, 2) }}</span>
+                                                class="cl-title">{{ $general->cur_sym }}@{{ iva }}</span>
                                         </li>
                                         @if (session()->has('coupon'))
                                             <li>
@@ -447,6 +447,48 @@
                 <div class="col-md-4 col-lg-4 col-xl-4">
 
                     <div class="checkout-wrapper shadow ">
+                        <div class="row justify-content-center mt-2">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="card mb-3 card-envio" id="card_o_type1" onclick="order_type(1)">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <input type="checkbox" class="" value="1"
+                                                    name="order_type" id="order_type_1">
+                                            </div>
+                                            <div class="col-md-9 mb-4">
+                                                <strong>Facturado</strong><br>
+                                                <span>
+                                                    <small class="textspan">
+                                                        Seleccione esta opción si tu orden la deseas facturada
+                                                    </small>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <div class="card mb-3 card-envio" id="card_o_type2" onclick="order_type(2)">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <input type="checkbox" class="" value="2"
+                                                    name="order_type" id="order_type_2">
+                                            </div>
+                                            <div class="col-md-9">
+                                                <strong>Nota de Entrega</strong><br>
+                                                <span>
+                                                    <small class="textspan">
+                                                        Seleccione esta opcion si deseas que tu orden sea con nota de entrga
+                                                    </small>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row justify-content-center mt-2">
                             <div class="col-md-6 col-lg-6">
                                 <div class="card mb-3 card-envio" id="card_m_payment1" onclick="method_payment(1)">
@@ -1272,6 +1314,7 @@
                 order_number: '',
                 shipping_type: '',
                 total: 0,
+                iva : +parseFloat('{{ $iva }}').toFixed(2),
                 totalbs: 0,
                 subtotal: 0,
                 afterCouponAmount: 0,
@@ -1305,7 +1348,8 @@
                     id_coupon: null,
                     shippingChargeM: 0,
                     bank_id: 0,
-                    method_payment: 1
+                    method_payment: 1,
+                    order_type: 1
                 },
                 secondPayment: {
                     totaldollar: 0,
@@ -1313,6 +1357,7 @@
                 },
                 error: [],
                 order: [],
+                order_type: 1,
                 deposit: {},
                 depositReturn: [],
                 datagatewayCur: {},
@@ -1822,7 +1867,7 @@
                 tipPrice: function(mount) {
                     if (!pay.order.id) {
                         const val = $('#shippingCharge2').val();
-                        $('#propina_form').val(mount);
+                        $('#propina_form').val(parseFloat(mount).toFixed(2));
                         pay.form.propina_form = mount
                         let total = 0;
                         const charge = parseFloat(val);
@@ -1842,7 +1887,7 @@
                             propina = 0;
                         }
 
-                        total = (parseFloat(afterCouponAmount) + (charge + propina + iva) - coupon_amount);
+                        total = (parseFloat(afterCouponAmount) + (charge + propina + pay.iva) - coupon_amount);
                         total = (Math.round(total * 100) / 100).toFixed(2);
                         // console.log(total);
 
@@ -1875,7 +1920,7 @@
                 tipSecondPayment: function(mount) {
 
                     const val = $('#shippingCharge2').val();
-                    $('#propina_form').val(mount);
+                    $('#propina_form').val(parseFloat(mount).toFixed(2));
                     pay.form.propina_form = mount
                     let total = 0;
                     const charge = parseFloat(val);
@@ -1912,7 +1957,6 @@
 
         const moneda = ('{{ $moneda }}');
         const rate = '{{ $tasa }}';
-        const iva = parseFloat('{{ $iva }}');
         const coupon_amount = 0;
         const couponAmount =
             @if (session()->has('coupon'))
@@ -1930,15 +1974,15 @@
 
         const ButtomPropina = (mount) => {
             //  debugger
-            /*const val = $('#shippingCharge2').val();
-            $('#propina_form').val(mount);
-
-            pay.form.propina_form = mount
+            console.log('propina')
+            const val = $('#shippingCharge2').val();
+            $('#propina_form').val(parseFloat(mount).toFixed(2));
 
             let total = 0;
             const charge = parseFloat(val);
             const sub_total = parseFloat('{{ $subtotal }}');
             const propina = parseFloat($('#propina_form').val());
+            pay.form.propina_form = propina
             let afterCouponAmount = (sub_total - couponAmount).toFixed(2);
 
             if (isNaN(charge)) {
@@ -1953,7 +1997,7 @@
                 propina = 0;
             }
 
-            total = (parseFloat(afterCouponAmount) + (charge + propina + iva) - coupon_amount);
+            total = (parseFloat(afterCouponAmount) + (charge + propina + pay.iva) - coupon_amount);
             total = (Math.round(total * 100) / 100).toFixed(2);
 
             $('#propina').html(`{{ $general->cur_sym }}` + mount);
@@ -1966,7 +2010,7 @@
             pay.form.totalbs = pay.totalbs            
             pay.formcash.totalbs = pay.totalbs
             pay.formcash.totaldollar = pay.total
-            return total;*/
+            return total;
         }
 
         const gatewayCurrency = (gateway) => {
@@ -1988,6 +2032,36 @@
             return formatted_date;
         }
 
+        function order_type(opcion) {
+            if (opcion == 1) {
+                $('#card_o_type1').css('background-color', '#ff6900').css('color', 'white');
+                $('#card_o_type2').css('background-color', 'rgba(214, 224, 226, 0.2)').css('color', '#7f8081');
+                $('#order_type_1').prop('checked', true);
+                $('#order_type_2').prop('checked', false);
+                pay.form.order_type = 1
+                pay.iva = {{ getAmount($iva,2) }}
+                pay.total = +(pay.subtotal + pay.iva + pay.form.propina_form).toFixed(2)
+                pay.form.totaldollar = pay.total
+                pay.form.total = pay.total
+                pay.formcash.totaldollar = pay.form.totaldollar
+                pay.totalbs = parseFloat(pay.form.totaldollar * parseFloat(rate)).toFixed(2);
+                pay.formcash.totalbs = pay.totalbs
+            } else {
+                $('#card_o_type2').css('background-color', '#ff6900').css('color', 'white');
+                $('#card_o_type1').css('background-color', 'rgba(214, 224, 226, 0.2)').css('color', '#7f8081');
+                
+                $('#order_type_1').prop('checked', false);
+                $('#order_type_2').prop('checked', true);
+                pay.form.order_type = 2
+                pay.total = pay.subtotal + pay.form.propina_form
+                pay.iva = 0
+                pay.form.totaldollar = pay.total
+                pay.form.total = pay.total
+                pay.formcash.totaldollar = pay.form.totaldollar
+                pay.totalbs = parseFloat(pay.formcash.totaldollar * parseFloat(rate)).toFixed(2);
+                pay.formcash.totalbs = pay.totalbs
+            }
+        }
         function method_payment(opcion) {
             if (opcion == 1) {
                 $('#card_m_payment1').css('background-color', '#ff6900').css('color', 'white');
@@ -2097,7 +2171,7 @@
             if (moneda == 'Dolares') {
                 $('#cartSubtotal').text(`{{ $general->cur_sym }}` + parseFloat(sub_total).toFixed(2));
                 pay.afterCouponAmount = (sub_total - couponAmount).toFixed(2);
-                total = parseFloat((sub_total + iva) - couponAmount);
+                total = parseFloat((sub_total + pay.iva) - couponAmount);
                 pay.total = parseFloat((Math.round(total * 100) / 100)).toFixed(2);
                 pay.form.total = pay.total
                 pay.formcash.totaldollar = pay.total
@@ -2109,7 +2183,7 @@
             } else {
                 $('#cartSubtotal').text(`Bs ` + parseFloat(sub_total * rate).toFixed(2));
                 pay.afterCouponAmount = ((sub_total - couponAmount) * rate).toFixed(2);
-                total = parseFloat((sub_total + iva) - couponAmount);
+                total = parseFloat((sub_total + pay.iva) - couponAmount);
                 pay.total = parseFloat((Math.round(total * 100) / 100)).toFixed(2);
                 pay.form.total = pay.total
                 pay.formcash.totaldollar = pay.total
@@ -2125,6 +2199,8 @@
             method_entrega(1);
 
             method_payment(1)
+
+            order_type(1)
 
             $(".product-slider-shippin").owlCarousel({
                 responsive: {

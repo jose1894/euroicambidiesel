@@ -67,7 +67,6 @@
                                     $gateway = ($data->gateway != null) ? json_encode($data->gateway) : null;
                                     $gateway2 = ($data->gateway2 != null) ? json_encode($data->gateway2) : null;
                                 @endphp
-
                                 <td data-label="@lang('Details')">
                                     <a href="javascript:void(0)" class="edit approveBtn"
                                         data-info="{{$details}}"
@@ -83,6 +82,7 @@
                                         data-after_charge='{{ number_format(getAmount($data->amount + $data->charge), 2, ",", ".") }} {{ $data->method_currency }}'
                                         data-rate='{{ number_format(getAmount($data->rate), 2, ",", ".") }} {{ $data->method_currency }}'
                                         data-payable='{{ number_format(getAmount($data->final_amo), 2, ",", ".") }} {{ $data->method_currency }}'
+                                        data-order-type='{{ $data->order['order_type'] }}'
                                     >
                                         <i class="fa fa-desktop"></i>
                                     </a>
@@ -124,6 +124,7 @@
                     <li class="list-group-item d-flex justify-content-between rounded-0">Después de la carga <span class="withdraw-after_charge"></span></li>
                     <li class="list-group-item d-flex justify-content-between rounded-0">Tarifa de Conversión <span class="withdraw-rate"></span></li>
                     <li class="list-group-item d-flex justify-content-between rounded-0 border-bottom-0">Monto a Pagar <span class="withdraw-payable"></span></li>
+                    <li class="list-group-item d-flex justify-content-between rounded-0 border-bottom-0">Tipo de Orden <span class="order-type"></span></li>
                 </ul>
 
 
@@ -229,6 +230,8 @@
             modal.find('.withdraw-after_charge').text($(this).data('after_charge'));
             modal.find('.withdraw-rate').text($(this).data('rate'));
             modal.find('.withdraw-payable').text($(this).data('payable'));
+            const orderType = $(this).data('order-type') === 1 ? 'Factura' : 'Nota de entrega';
+            modal.find('.order-type').text(orderType);
 
             var list = [];
             var details =  Object.entries($(this).data('info'));
