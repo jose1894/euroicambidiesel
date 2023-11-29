@@ -7073,6 +7073,13 @@ figure.is-loading:after {
   }
 }
 
+@media screen and (max-width: 375px) {
+
+  nav#menu-normal {
+    height: 250px;
+  }
+  
+}
 nav#menu-normal {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   background-color: #09314A;

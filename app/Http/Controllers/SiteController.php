@@ -412,7 +412,7 @@ class SiteController extends Controller
         $date_now = Carbon::now()->format('Y-m-d H:i:s');
         $page_title     = 'Buscar Productos: ' . $request->search_code;
         $empty_message  = 'Sin resultados';
-        $search_code = $request->search_code;
+        $search_code = '"'.$request->search_code.'"';
         $search_key     = $search_code;
         $category_id    = $request->category_id;
         
@@ -423,13 +423,9 @@ class SiteController extends Controller
         }
 
         $products_match = Product::select('*')
-        ->selectRaw('
-                        match(name, description, internal_code, oem_code,specification,extra_descriptions) 
-                        against(? in natural language mode) as score
-                    ', [$search_code])
         ->whereRaw('
                         match(name, description, internal_code, oem_code,specification,extra_descriptions) 
-                        against(? in natural language mode) > 1
+                        against(?)
                     ', [$search_code])
         ->whereHas('stocks', function ($p) {
             //$p->whereHas('amounts', function ($t) {
@@ -444,8 +440,10 @@ class SiteController extends Controller
                 'productIva',
             ]
         )
+        // ->toSql();
         ->paginate($perpage);
 
+        // dd($products_match);
         $products = $products_match;
         return view($this->activeTemplate . 'products_search', compact('page_title', 'products', 'empty_message', 'search_key', 'category_id', 'perpage'));
     }
