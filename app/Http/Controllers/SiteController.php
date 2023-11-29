@@ -408,6 +408,48 @@ class SiteController extends Controller
         // }
     }
 
+    public function productSearchByCode(Request $request){
+        $date_now = Carbon::now()->format('Y-m-d H:i:s');
+        $page_title     = 'Buscar Productos: ' . $request->search_code;
+        $empty_message  = 'Sin resultados';
+        $search_code = $request->search_code;
+        $search_key     = $search_code;
+        $category_id    = $request->category_id;
+        
+        if (!isset(request()->perpage)) {
+            $perpage    = 30;
+        } else {
+            $perpage    = request()->perpage;
+        }
+
+        $products_match = Product::select('*')
+        ->selectRaw('
+                        match(name, description, internal_code, oem_code,specification,extra_descriptions) 
+                        against(? in natural language mode) as score
+                    ', [$search_code])
+        ->whereRaw('
+                        match(name, description, internal_code, oem_code,specification,extra_descriptions) 
+                        against(? in natural language mode) > 1
+                    ', [$search_code])
+        ->whereHas('stocks', function ($p) {
+            //$p->whereHas('amounts', function ($t) {
+            $p->where('quantity', '>', '0');
+            //});
+        })
+        ->with(
+            [
+                'stocks' => function ($query) {
+                    $query->where('quantity', '>', 0)->latest()->get(); //el ultimo stock registrado
+                },
+                'productIva',
+            ]
+        )
+        ->paginate($perpage);
+
+        $products = $products_match;
+        return view($this->activeTemplate . 'products_search', compact('page_title', 'products', 'empty_message', 'search_key', 'category_id', 'perpage'));
+    }
+
     public function productSearch(Request $request)
     {
 

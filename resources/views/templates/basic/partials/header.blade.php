@@ -9,39 +9,61 @@
                             alt="@lang('logo')">
                     </a>
                 </div>
-                <form autocomplete="off" autocomplete="false" action="{{ route('product.search') }}" method="GET"
-                    class="header-search-form mr-auto @if (!request()->routeIs('home')) w-100 @endif">
-                    <div class="dropdown">
-                        <div class="header-form-group">
-                            <input v-model="search" v-on:keyup="autocomplete" autocomplete="off" autocomplete="false"
-                                type="text" name="search_key" value="{{ request()->search_key }}"
-                                placeholder="@lang('Search today')...">
-                            <button type="submit"><i class="las la-search"></i></button>
-                        </div>
-                        <div id="show_search_products_categories"></div>
-                        <div class="select-item">
-                            <select class="select-bar" name="category_id">
-                                <option selected value="0">@lang('All Categories')</option>
-                                @foreach ($categories_with_products_in_stock as $category)
-                                    @if ($category->parent_id == null)
-                                        <option value="{{ $category->id }}">@lang($category->name)</option>
-                                    @endif
-                                    @php
-                                        $prefix = '--';
-                                    @endphp
-                                    @foreach ($category->allSubcategories as $subcategory)
-                                        {{-- @include($activeTemplate.'partials.subcategories', ['subcategory' => $subcategory,
-                    'prefix'=>$prefix]) --}}
-                                        <option value="{{ $subcategory->id }}">
-                                            {{ $prefix }} @lang($subcategory->name)
-                                        </option>
+                <div class="header-search-form mr-auto @if (!request()->routeIs('home')) w-100 @endif">
+                    <form autocomplete="off" autocomplete="false" action="{{ route('product.search') }}" method="GET"
+                        >
+                        <div class="dropdown">
+                            <div class="header-form-group">
+                                <input v-model="search" v-on:keyup="autocomplete" autocomplete="off" autocomplete="false"
+                                    type="text" name="search_key" value="{{ request()->search_key }}"
+                                    placeholder="@lang('General search')...">
+                                <button type="submit"><i class="las la-search"></i></button>
+                                
+                            </div>
+                            <div id="show_search_products_categories"></div>
+                            <div class="select-item">
+                                <select class="select-bar" name="category_id">
+                                    <option selected value="0">@lang('All Categories')</option>
+                                    @foreach ($categories_with_products_in_stock as $category)
+                                        @if ($category->parent_id == null)
+                                            <option value="{{ $category->id }}">@lang($category->name)</option>
+                                        @endif
+                                        @php
+                                            $prefix = '--';
+                                        @endphp
+                                        @foreach ($category->allSubcategories as $subcategory)
+                                            {{-- @include($activeTemplate.'partials.subcategories', ['subcategory' => $subcategory,
+                        'prefix'=>$prefix]) --}}
+                                            <option value="{{ $subcategory->id }}">
+                                                {{ $prefix }} @lang($subcategory->name)
+                                            </option>
+                                        @endforeach
                                     @endforeach
-                                @endforeach
-                            </select>
-                        </div>
+                                </select>
+                            </div>
 
-                    </div>
-                </form>
+                        </div>
+                    </form>
+
+                    <form autocomplete="off" class="mt-1" autocomplete="false" action="{{ route('product.search.code') }}" method="GET">
+                        <div class="dropdown">
+                            <div class="header-form-group">
+                                <input 
+                                    autocomplete="off" 
+                                    autocomplete="false" 
+                                    type="text" 
+                                    name="search_code" 
+                                    value="{{ request()->search_code }}"
+                                    placeholder="@lang('Code search')...">
+                                <button type="submit"><i class="las la-search"></i></button>
+                                
+                            </div>
+                            <div id="show_search_products_categories"></div>
+                           
+
+                        </div>
+                    </form>
+                </div>
                 <ul class="shortcut-icons" onclick="$('.dropdown-content').css('display','none');">
                     <li>
                         @if (Auth::check())

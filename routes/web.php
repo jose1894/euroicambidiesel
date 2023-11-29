@@ -519,6 +519,7 @@ Route::get('product/get-stock-by-variant/', 'SiteController@getStockByVariant')-
 Route::get('product/get-image-by-variant/', 'SiteController@getImageByVariant')->name('product.get-image-by-variant');
 
 Route::get('/products/search/', 'SiteController@productSearch')->name('product.search');
+Route::get('/products/search/code', 'SiteController@productSearchByCode')->name('product.search.code');
 Route::get('/products/search/{perpage?}', 'SiteController@productSearch')->name('product.search.filter');
 Route::get('product/more_product_search','SiteController@more_product_search')->name('more_product_search');
 Route::get('product/more_product_offers','SiteController@more_product_offers')->name('more_product_offers');
