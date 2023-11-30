@@ -1,5 +1,7 @@
 <!-- Header Section Starts Here -->
 <header class="container-fluid fixed-top px-0" id="header">
+
+
     <nav id="menu-normal" class="row navbar navbar-expand py-0">
         <div class="col-12 py-2 linea-uno">
             <div class="header-wrapper justify-content-between align-items-center">
@@ -10,15 +12,14 @@
                     </a>
                 </div>
                 <div class="header-search-form mr-auto @if (!request()->routeIs('home')) w-100 @endif">
-                    <form autocomplete="off" autocomplete="false" action="{{ route('product.search') }}" method="GET"
-                        >
+                    <form autocomplete="off" autocomplete="false" action="{{ route('product.search') }}" method="GET">
                         <div class="dropdown">
                             <div class="header-form-group">
-                                <input v-model="search" v-on:keyup="autocomplete" autocomplete="off" autocomplete="false"
-                                    type="text" name="search_key" value="{{ request()->search_key }}"
-                                    placeholder="@lang('General search')...">
+                                <input v-model="search" v-on:keyup="autocomplete" autocomplete="off"
+                                    autocomplete="false" type="text" name="search_key"
+                                    value="{{ request()->search_key }}" placeholder="@lang('General search')...">
                                 <button type="submit"><i class="las la-search"></i></button>
-                                
+
                             </div>
                             <div id="show_search_products_categories"></div>
                             <div class="select-item">
@@ -45,59 +46,82 @@
                         </div>
                     </form>
 
-                    <form autocomplete="off" class="mt-1" autocomplete="false" action="{{ route('product.search.code') }}" method="GET">
+                    <form autocomplete="off" class="mt-1" autocomplete="false"
+                        action="{{ route('product.search.code') }}" method="GET">
                         <div class="dropdown">
                             <div class="header-form-group">
-                                <input 
-                                    autocomplete="off" 
-                                    autocomplete="false" 
-                                    type="text" 
-                                    name="search_code" 
-                                    value="{{ request()->search_code }}"
-                                    placeholder="@lang('Code search')...">
+                                <input autocomplete="off" autocomplete="false" type="text" name="search_code"
+                                    value="{{ request()->search_code }}" placeholder="@lang('Code search')...">
                                 <button type="submit"><i class="las la-search"></i></button>
-                                
+
                             </div>
                             <div id="show_search_products_categories"></div>
-                           
+
 
                         </div>
                     </form>
                 </div>
                 <ul class="shortcut-icons" onclick="$('.dropdown-content').css('display','none');">
+
                     <li>
-                        @if (Auth::check())
+                        @if (Auth::guard('web')->check())
                             <div class="link-argo">
-                                <a href="#">Usuario</a>
+                                <a href="#"><i style="font-size: 12px" class="fa fa-user size_icon"
+                                        aria-hidden="true"></i> Usuario</a>
                                 <a href="#" class="dashboard-menu-bar">
                                     {{ str_limit(auth()->user()->fullname, 12, '...') }}
                                 </a>
                             </div>
                         @else
                             <div class="link-argo">
-                                <a href="{{ route('user.register') }}">@lang('createaccountargo')</a>
+                                <a href="{{ route('user.register') }}"><i style="font-size: 12px"
+                                        class="fa fa-registered size_icon" aria-hidden="true"></i> @lang('createaccountargo')</a>
                                 <a href="javascript:void(0)" class="dashboard-menu-bar">
+                                    <i style="font-size: 12px" class="fa fa-user size_icon" aria-hidden="true"></i>
                                     @lang('loginsystem')
                                 </a>
                             </div>
                         @endif
 
                     </li>
-                    <li>
-                        <div class="link-argo">
-                            <a href="#">@lang('zone argo')</a>
-                            <a href="#">
-                                Valencia
-                            </a>
-                        </div>
-                    </li>
-                    <li>
+
+                    {{-- <li>
                         <div class="link-argo header-change-moneda">
                             <a href="#">Moneda</a>
-                            <a href="#" id="moneda" name="moneda">
-                                <span class="header-moneda"> </span>
-                            </a>
+                            <div >
+                                <a href="#" id="moneda" name="moneda">
+                                    <span class="header-moneda">Dolares</span>
+                                </a>
+                            </div>
                         </div>
+                    </li> --}}
+                    <li class="nav-item dropdown ml-3 ">
+                        <div class="link-argo header-change-moneda">
+                            <span data-toggle="dropdown" class="nav-item desplegable " aria-expanded="false">
+                                <span class="">
+                                    <small class="d-block">Moneda </small>
+                                    <a class="nav-link ">
+                                        <span class="header-moneda">{{ session()->get('moneda') }}</span>
+                                    </a>
+                                </span>
+                                <i class="ml-2 fas fa-chevron-down "></i>
+                            </span>
+                            <div class="dropdown-menu ">
+                                @if (session()->get('moneda') == 'Bolívares')
+                                    <a href="javascript:void(0)" class="dropdown-item header-moneda-selecc">Dolares</a>
+                                    {{-- <a href="javascript:void(0)" class="dropdown-item header-moneda-selecc">Euros</a> --}}
+                                {{-- @elseif(session()->get('moneda') == 'Euros')
+                                    <a href="javascript:void(0)"
+                                        class="dropdown-item header-moneda-selecc">Bolívares</a>
+                                    <a href="javascript:void(0)" class="dropdown-item header-moneda-selecc">Dolares</a> --}}
+                                @else
+                                    <a href="javascript:void(0)"
+                                        class="dropdown-item header-moneda-selecc">Bolívares</a>
+                                    {{-- <a href="javascript:void(0)" class="dropdown-item header-moneda-selecc">Euros</a> --}}
+                                @endif
+                            </div>
+                        </div>
+                    </li>
                     <li>
                         <div class="header-bar e-none">
                             <span></span>
@@ -113,6 +137,7 @@
                         </a>
                     </li>
                 </ul>
+
 
             </div>
         </div>
@@ -158,7 +183,8 @@
             </div>
             <div class="logo">
                 <a href="{{ route('home') }}">
-                    <img src="{{ getImage('assets/images/logoIcon/logo-euro.png', '183x54') }}" alt="@lang('logo')">
+                    <img src="{{ getImage('assets/images/logoIcon/logo-euro.png', '183x54') }}"
+                        alt="@lang('logo')">
                 </a>
             </div>
         </div>
@@ -350,7 +376,7 @@
                     <div class="pt-2 mb-0">
                         <p class="create-accounts">
                             <a href="{{ route('user.password.request') }}" class="mb-2">¿@lang('Forgot
-                                                                                                                                                                                                        Password')?</a>
+                                                                                                                                                                                                                                    Password')?</a>
                         </p>
                         <p class="create-accounts">
                             <span>¿@lang('Don\'t have an account')? <a href="{{ route('user.register') }}"

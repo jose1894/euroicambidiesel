@@ -1851,7 +1851,7 @@ class SiteController extends Controller
     public function setMoneda(Request $request)
     {
         $moneda = $request['moneda']; //ession()->get('moneda');
-        //dd($request['moneda']);
+        // dd($request['moneda']);
         switch ($moneda) {
             case 'Dolares':
                 session()->put('moneda', 'Dolares');
@@ -1896,12 +1896,10 @@ class SiteController extends Controller
 
     public function getRate()
     {
-        $rate = Rates::select('tasa_del_dia')->where('status', '1')->where('type', session()->get('moneda'))->orderBy('id', 'desc')->first();
-        //dd($rate);
+        $rate = Rates::select('tasa_del_dia')->where('status', '1')->where('type', 'Bolívares')->orderBy('id', 'desc')->first();
         if ($rate) {
             session()->put('rate', $rate->tasa_del_dia);
             session()->save();
-            //dd(session()->get('rate'));
             return response()->json(['rate' => $rate->tasa_del_dia]);
         }
         return null;
