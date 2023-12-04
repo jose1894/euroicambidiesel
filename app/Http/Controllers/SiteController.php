@@ -417,7 +417,7 @@ class SiteController extends Controller
         $category_id    = $request->category_id;
         
         if (!isset(request()->perpage)) {
-            $perpage    = 30;
+            $perpage    = 300;
         } else {
             $perpage    = request()->perpage;
         }
