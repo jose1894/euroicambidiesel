@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/nice-select.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/owl.min.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/magnific-popup.css') }}">
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/main.css?v=0.0.2') }}">
+    <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/main.css?v=0.0.3') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue ." css/color.php?color1=$general->
     base_color&color2=$general->secondary_color") }}">
@@ -949,17 +949,17 @@
 
             //Setear moneda
             $(document).on('click','.header-change-moneda',function(e){
-
+// console.log(e);
                 $.ajax({
                     headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}",},
-                    url:"{{route('set-moneda')}}",
+                    url:"{{route('set-moneda')}}?moneda=" + $('.header-moneda-selecc').text().trim(),
                     method:"GET",
                     success:function(response)
                     {
                         if(response.moneda) {
                             notify('success', response.moneda);
                             $('.header-moneda').text(response.moneda);
-                            //location.reload();
+                            location.reload();
                             //window.location.replace("{{ route('home') }}");
                         }else{
                             notify('error', response);
