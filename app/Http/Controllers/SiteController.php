@@ -658,57 +658,72 @@ class SiteController extends Controller
                     $p->where('quantity', '>', '0');
                     //});
                 })
-                ->orderBy('name', 'desc')
+                //->orderBy('name', 'desc')
+                ->orderByRaw(
+                    "CASE WHEN name = '" . $search_key . "' THEN 0  
+							   WHEN name LIKE '" . $search_key . "%' THEN 1  
+							   WHEN name LIKE '%" . $search_key . "%' THEN 2  
+							   WHEN name LIKE '%" . $search_key . "' THEN 3  
+							   ELSE 4
+						  END, name ASC"
+                )
                 ->paginate($perpage);
-
+                
             $products_match = Product::select('*')
                 ->selectRaw('
-                            match(name, description, internal_code, oem_code,specification,extra_descriptions)  
-                            against(? in natural language mode) as score
-                        ', [$search_key])
+                                match(name, description, internal_code, oem_code,specification,extra_descriptions) 
+                                against(? in natural language mode) as score
+                            ', [$search_key])
                 ->whereRaw('
-                            match(name, description, internal_code, oem_code,specification,extra_descriptions)  
-                            against(? in natural language mode) > 0.0000001
-                        ', [$search_key])
-                ->with(
-                    [
-                        'categories',
-                        'offer',
-                        'offer.activeOffer',
-                        'reviews',
-                        'brand',
-                        'stocks' => function ($q) {
-                            $q->where('quantity', '>', 0);
-                        },
-                        'productIva'
-                    ]
-                )
-                ->where('is_plan', 0)
-                ->whereHas('categories')
+                                match(name, description, internal_code, oem_code,specification,extra_descriptions) 
+                                against(? in natural language mode) > 0.0000001
+                            ', [$search_key])
                 ->whereHas('stocks', function ($p) {
                     //$p->whereHas('amounts', function ($t) {
                     $p->where('quantity', '>', '0');
                     //});
                 })
-                ->orderBy('name', 'desc')
+                ->with(
+                    [
+                        'stocks' => function ($query) {
+                            $query->where('quantity', '>', 0)->latest()->get(); //el ultimo stock registrado
+                        },
+                        'productIva',
+                    ]
+                )
                 ->paginate($perpage);
         } else {
             $category = Category::whereId($request->id)->firstOrFail();
 
-            $all_products           = $category->products()
-                ->with('categories', 'offer', 'offer.activeOffer', 'brand', 'reviews')
-                ->whereHas('categories')
-                ->whereHas('stocks', function ($p) {
-                    //$p->whereHas('amounts', function ($t) {
-                    $p->where('quantity', '>', '0');
-                    //});
-                })
-                ->where(function ($query) use ($search_key) {
-                    return $query->where('name', 'like', "%{$search_key}%")
-                        ->orWhere('summary', 'like', "%{$search_key}%")
-                        ->orWhere('description', 'like', "%{$search_key}%");
-                })
-                ->get();
+            $all_products   = Category::where('id', $category_id)
+            // ->where('parent_id', $category_id)
+            // ->orWhereNull('parent_id')
+            ->firstOrFail()->products()
+            ->with(
+                [
+                    'categories',
+                    'offer',
+                    'offer.activeOffer',
+                    'reviews',
+                    'brand',
+                    'stocks' => function ($q) {
+                        $q->where('quantity', '>', 0);
+                    },
+                ]
+            )
+            ->whereHas('categories')
+            ->whereHas('stocks', function ($p) {
+                //$p->whereHas('amounts', function ($t) {
+                $p->where('quantity', '>', '0');
+                //});
+            })
+            ->where(function ($query) use ($search_key) {
+                return $query->where('name', 'like', "%{$search_key}%")
+                    ->orWhere('summary', 'like', "%{$search_key}%")
+                    ->orWhere('description', 'like', "%{$search_key}%");
+            })
+            ->paginate($perpage);
+            $all_products->where('parent_id', $category_id);
 
             if (in_array("0", $brand)) {
                 $productCollection  = $all_products;
