@@ -230,7 +230,7 @@
                                         <th>(<i class="la la-minus"></i>) @lang('Shipping')</th>
                                         <td>{{ @$general->cur_sym.getAmount($order->shipping_charge, 2)}}</td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <th width="50%">Base Imponible</th>
                                         <td width="50%">{{@$general->cur_sym.getAmount($order->base_imponible, 2)}}</td>
                                     </tr>
@@ -245,7 +245,7 @@
                                         @else 
                                             <td width="50%">{{@$general->cur_sym.getAmount(($order->base_imponible * 0.16), 2)}}</td>
                                         @endif
-                                    </tr>
+                                    </tr> --}}
                                     <tr>
                                         <th>@lang('Total')</th>
                                         <td>{{@$general->cur_sym.($order->total_amount)}}</td>

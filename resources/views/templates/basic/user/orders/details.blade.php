@@ -129,7 +129,8 @@
                                 @endif
                                 <tr>
                                     <th width="50%">@lang('Subtotal')</th>
-                                    <td width="50%">{{@$general->cur_sym.getAmount(($order->base_imponible + $order->excento), 2)}}</td>
+                                    {{-- <td width="50%">{{@$general->cur_sym.getAmount(($order->base_imponible + $order->excento), 2)}}</td> --}}
+                                    <td width="50%">{{@$general->cur_sym.getAmount($subtotal, 2)}}</td>
                                 </tr>
                                 @if($order->appliedCoupon)
                                 <tr>
@@ -147,22 +148,22 @@
                                         <td>{{@$general->cur_sym.($order->propina)}}</td>
                                     </tr>
                                 @endif
-                                <tr>
+                                {{-- <tr>
                                     <th width="50%">Base Imponible</th>
                                     <td width="50%">{{@$general->cur_sym.getAmount($order->base_imponible, 2)}}</td>
-                                </tr>
-                                <tr>
+                                </tr> --}}
+                                {{-- <tr>
                                     <th width="50%">Excento</th>
                                     <td width="50%">{{@$general->cur_sym.getAmount($order->excento, 2)}}</td>
-                                </tr>
-                                <tr>
+                                </tr> --}}
+                                {{-- <tr>
                                     <th width="50%">IVA</th>
                                     @if($order->iva > 0)
                                         <td width="50%">{{@$general->cur_sym.getAmount(($order->iva), 2)}}</td>
                                     @else 
                                         <td width="50%">{{@$general->cur_sym.getAmount(($order->base_imponible * 0.16), 2)}}</td>
                                     @endif
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <th>@lang('Total')</th>
                                     <td>{{@$general->cur_sym.($order->total_amount)}}</td>
