@@ -6457,7 +6457,7 @@ div.user .content .title .cl-white {
 }
 @media (max-width: 1235px) {
   .x-main .unete {
-    height: auto;
+    /* height: auto; */
     padding: 2rem 0;
   }
 }
