@@ -60,7 +60,7 @@
             <div class="footer-widget widget-about">
                 <div class="logo">
                     <a href="{{ route('home') }}">
-                        <img class="w-100 h-auto" src="{{getImage(imagePath()['logoIcon']['path'] .'/logo-euro.png')}}" alt="@lang('logo')">
+                        <img class="w-100 h-auto" src="{{getImage(imagePath()['logoIcon']['path'] .'/logo.png')}}" alt="@lang('logo')">
                     </a>
                 </div>
                 <p>@lang(@$footer->footer_note)</p>

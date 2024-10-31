@@ -31,7 +31,7 @@
                 <div class="row mt-3">
                     <div class="col-lg-6">
                         <div class="logo">
-                            <img  src="{{ getImage('assets/images/logoIcon/logo-euro.png', '183x54') }}" alt="@lang('logo')">
+                            <img  src="{{ getImage('assets/images/logoIcon/logo.png', '183x54') }}" alt="@lang('logo')">
                         </div>
                     </div>
                     <div class="col-lg-6">
