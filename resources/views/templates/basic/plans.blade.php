@@ -13,6 +13,7 @@
                     <div class="col-md-12">
                         <div class="img-n-l">
                             <img src="assets/images/logoIcon/logo.png" alt="logo.png">
+                            
                         </div>
                         <div class="unete-content">
                             <h2>SÉ PREMIUM Y DISFRUTA DE LA EXCLUSIVIDAD</h2>

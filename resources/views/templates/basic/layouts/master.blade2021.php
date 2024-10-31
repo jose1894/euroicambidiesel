@@ -130,6 +130,7 @@
             <img src="{{ getImage('assets/images/logoIcon/logo.png', '183x54') }}" alt="@lang('logo')">
             <!-- <span class="hello"><i class="las la-shopping-bag"></i></span>
             <h6 class="wellcome"><span>{{ __($general->preloader_title) }}</span></h6> -->
+            
         </div>
     </div>
     <!-- ===========Loader=========== -->

@@ -64,6 +64,7 @@
                     </a>
                 </div>
                 <p>@lang(@$footer->footer_note)</p>
+                
 
             </div>
             <div class="footer-widget widget-link">

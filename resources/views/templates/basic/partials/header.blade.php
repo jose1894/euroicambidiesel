@@ -9,6 +9,7 @@
                     <a href="{{ route('home') }}">
                         <img src="{{ getImage('assets/images/logoIcon/logo.png', '183x54') }}"
                             alt="@lang('logo')">
+                            
                     </a>
                 </div>
                 <div class="header-search-form mr-auto @if (!request()->routeIs('home')) w-100 @endif">
@@ -185,6 +186,7 @@
                 <a href="{{ route('home') }}">
                     <img src="{{ getImage('assets/images/logoIcon/logo.png', '183x54') }}"
                         alt="@lang('logo')">
+
                 </a>
             </div>
         </div>

@@ -15,6 +15,7 @@
                                         <div class="avatar-preview">
                                             <div class="profilePicPreview logoPicPrev logoPrev" style="background-image: url({{ getImage(imagePath()['logoIcon']['path'].'/logo.png', '?'.time()) }})">
                                                 <button type="button" class="remove-image"><i class="fa fa-times"></i></button>
+                                                
                                             </div>
                                         </div>
                                         <div class="avatar-edit">
