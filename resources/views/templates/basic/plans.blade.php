@@ -9,7 +9,7 @@
 
         <div class="unete">
             <div class="container-fluid">
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-md-12">
                         <div class="img-n-l">
                             <img src="assets/images/logoIcon/logo.png" alt="logo.png">
@@ -22,7 +22,7 @@
                             
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 

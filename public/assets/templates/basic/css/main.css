@@ -6451,13 +6451,13 @@ div.user .content .title .cl-white {
 }
 .x-main .unete {
   background-image: url('../../../images/nosotros/fondo-unete.jpg');
-  height: 26.5vw;
-  background-size: cover;
+  height: 18.8vw;
+  background-size: contain;
   background-repeat: no-repeat;
 }
 @media (max-width: 1235px) {
   .x-main .unete {
-    height: auto;
+    /* height: auto; */
     padding: 2rem 0;
   }
 }
