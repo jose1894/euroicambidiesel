@@ -1040,8 +1040,7 @@
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <button v-if="!disguise" @click="submit" type="button"
-                                        class="btn btn-success btn-sm">Registrar
-                                        Pago</button>
+                                        class="btn btn-success btn-sm">Registrar Pago</button>
 
 
 
