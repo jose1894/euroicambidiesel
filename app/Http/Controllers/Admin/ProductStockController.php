@@ -89,7 +89,7 @@ class ProductStockController extends Controller
         }
 
         $stock = ProductStock::where('product_id', $id)->where('attributes', $attributes)->first();
-        dd($request->sku);
+        // dd($request->sku);
         if ($stock) 
         {
             $stock->product_id = $id;
@@ -102,6 +102,8 @@ class ProductStockController extends Controller
                 $check_sku = Product::where('sku', $request->sku)->where('id', '!=', $id)->with('stocks')->orWhereHas('stocks', function ($q) use ($request) {
                     $q->where('sku', $request->sku);
                 })->first();
+
+                dd($check_sku);
 
                 if ($check_sku) {
                     $notify[] = ['error', 'Este SKU ya se tomó'];
