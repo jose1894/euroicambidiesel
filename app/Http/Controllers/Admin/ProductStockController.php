@@ -103,7 +103,7 @@ class ProductStockController extends Controller
                     $q->where('sku', $request->sku);
                 })->first();
 
-                dd($check_sku);
+                // dd($check_sku);
 
                 if ($check_sku) {
                     $notify[] = ['error', 'Este SKU ya se tomó'];
