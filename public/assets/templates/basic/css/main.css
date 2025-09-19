@@ -1404,7 +1404,7 @@ body *::-webkit-scrollbar-thumb {
   display: block;
 }
 .header-wrapper .logo img {
-  width: 49%;
+  width: 80%;
 }
 .shortcut-icons {
   align-items: center;
